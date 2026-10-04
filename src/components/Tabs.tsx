@@ -28,19 +28,19 @@ export const Tabs: React.FC<TabsProps> = ({
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
-            className={`flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all duration-200 ${
+            className={`flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg whitespace-nowrap cursor-pointer transition-all duration-200 ease-out active:scale-[0.98] ${
               isActive
-                ? 'bg-white dark:bg-tsa-navy-800 text-tsa-blue-600 dark:text-tsa-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-700/60'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/40'
+                ? 'bg-white dark:bg-tsa-navy-800 text-tsa-blue-600 dark:text-tsa-cyan-300 shadow-sm border border-slate-200/60 dark:border-slate-700/60'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
             }`}
           >
             {tab.icon && <span className="shrink-0">{tab.icon}</span>}
             <span>{tab.label}</span>
             {tab.count !== undefined && (
               <span
-                className={`text-xs px-1.5 py-0.5 rounded-full ${
+                className={`text-[11px] font-mono px-2 py-0.5 rounded-full ${
                   isActive
-                    ? 'bg-tsa-blue-500/10 text-tsa-blue-600 dark:text-tsa-cyan-300'
+                    ? 'bg-tsa-blue-500/10 text-tsa-blue-600 dark:text-tsa-cyan-300 font-bold'
                     : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}
               >

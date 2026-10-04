@@ -37,10 +37,15 @@ export default {
             border: '#1e293b',
             borderGlow: '#2563eb',
           },
+          accent: {
+            orange: '#ea580c', // High contrast CTA accent from ui-ux-pro-max
+            orangeHover: '#c2410c',
+          },
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        heading: ['Outfit', 'Inter', 'sans-serif'],
+        sans: ['Inter', 'Work Sans', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
       },
       animation: {
@@ -52,6 +57,11 @@ export default {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-8px)' },
         }
+      },
+      boxShadow: {
+        'tech-sm': '0 1px 3px rgba(0, 114, 255, 0.1)',
+        'tech-md': '0 4px 12px rgba(0, 114, 255, 0.12)',
+        'tech-lg': '0 10px 25px -5px rgba(0, 114, 255, 0.2)',
       },
     },
   },
