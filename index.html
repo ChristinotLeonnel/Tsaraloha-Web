@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TSA — Tsaraloha Structural Analysis | Advanced Structural Modeling & FEM</title>
+    <meta name="description" content="Tsaraloha Structural Analysis (TSA) is a modern engineering software for 3D structural modeling, finite element analysis with OpenSees, BIM interoperability, and AI co-engineering." />
+    <meta name="keywords" content="structural engineering, civil engineering, finite element analysis, OpenSees, FEM, CAD, BIM, structural analysis, 3D modeling, Eurocodes, AISC, frame analysis" />
+    <meta name="author" content="Christinot Leonnel Tsaraloha" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://christinotleonnel.github.io/Tsaraloha-Web/" />
+    <meta property="og:title" content="TSA — Tsaraloha Structural Analysis" />
+    <meta property="og:description" content="Model. Analyze. Understand. Engineer. Modern 3D structural analysis software powered by OpenSees & OpenCASCADE." />
+    <meta property="og:image" content="./assets/branding/TSA_dark.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="TSA — Tsaraloha Structural Analysis" />
+    <meta property="twitter:description" content="Model. Analyze. Understand. Engineer. Modern 3D structural analysis software powered by OpenSees & OpenCASCADE." />
+    <meta property="twitter:image" content="./assets/branding/TSA_dark.png" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="./assets/branding/TSA.ico" />
+    <link rel="apple-touch-icon" href="./assets/branding/TSA_dark.png" />
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Theme initialization script (prevents flash of white) -->
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('tsa_theme') || 'dark';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-tsa-navy-950 dark:text-slate-100 min-h-screen selection:bg-tsa-blue-600 selection:text-white transition-colors duration-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

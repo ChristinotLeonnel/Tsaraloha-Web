@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://christinotleonnel.github.io/Tsaraloha-Web/sitemap.xml
