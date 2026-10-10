@@ -47,6 +47,7 @@ export const Navbar: React.FC = () => {
   ];
 
   const moreLinks = [
+    { href: '/support', label: t.nav.support, desc: language === 'fr' ? 'FAQ, dépannage et signalement de bugs' : 'FAQ, troubleshooting and bug reports' },
     { href: '/downloads', label: t.nav.downloads, desc: language === 'fr' ? 'Installateurs et code source' : 'Binaries and source code' },
     { href: '/pricing', label: t.nav.pricing, desc: language === 'fr' ? 'Éditions et conditions' : 'Tiers and editions' },
     { href: '/licensing', label: t.nav.licensing, desc: language === 'fr' ? 'Licences open source et tierces' : 'TSA and third-party terms' },

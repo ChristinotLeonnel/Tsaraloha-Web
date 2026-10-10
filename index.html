@@ -13,23 +13,36 @@
     <meta property="og:url" content="https://christinotleonnel.github.io/Tsaraloha-Web/" />
     <meta property="og:title" content="TSA — Tsaraloha Structural Analysis" />
     <meta property="og:description" content="Model. Analyze. Understand. Engineer. Modern 3D structural analysis software powered by OpenSees & OpenCASCADE." />
-    <meta property="og:image" content="./assets/branding/TSA_dark.png" />
+    <meta property="og:image" content="%BASE_URL%assets/branding/TSA_dark.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content="TSA — Tsaraloha Structural Analysis" />
     <meta property="twitter:description" content="Model. Analyze. Understand. Engineer. Modern 3D structural analysis software powered by OpenSees & OpenCASCADE." />
-    <meta property="twitter:image" content="./assets/branding/TSA_dark.png" />
+    <meta property="twitter:image" content="%BASE_URL%assets/branding/TSA_dark.png" />
 
     <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="alternate icon" type="image/x-icon" href="./assets/branding/TSA.ico" />
-    <link rel="apple-touch-icon" href="./assets/branding/TSA_dark.png" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="%BASE_URL%assets/branding/TSA.ico" />
+    <link rel="apple-touch-icon" href="%BASE_URL%assets/branding/TSA_dark.png" />
 
     <!-- Typography: Outfit (Headings) + Inter / Work Sans (Body) + JetBrains Mono (Code/Formulas) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Liens profonds GitHub Pages (spa-github-pages, MIT) : 404.html renvoie vers « /?/chemin&requête » ;
+         on rétablit ici l'adresse propre avant le démarrage de l'application. -->
+    <script>
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
 
     <!-- Theme initialization script (prevents flash of white) -->
     <script>

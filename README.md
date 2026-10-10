@@ -27,7 +27,7 @@ This website serves as the official public portal for **TSA (Tsaraloha Structura
 
 - **Framework**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - **Bundler & Build Tool**: [Vite](https://vite.dev/)
-- **Styling**: [Tailwind CSS v3](https://tailwindcss.com/) with custom engineering color palette and CAD grid patterns
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with custom engineering color palette and CAD grid patterns
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Deployment**: [GitHub Actions](https://github.com/features/actions) + [GitHub Pages](https://pages.github.com/)
 
@@ -63,7 +63,6 @@ TSA Web/
 │   │   └── Tabs.tsx              # Tab switcher controls
 │   ├── config/                   # Centralized configurable data files
 │   │   ├── changelog.ts          # Release versions and change logs
-│   │   ├── docs.ts               # Structured documentation articles
 │   │   ├── downloads.ts          # Operating systems, source code, and prerequisites
 │   │   ├── features.ts           # Classified engineering features with badges
 │   │   ├── pricing.ts            # Pricing tiers (Community, Pro, Enterprise)
@@ -180,7 +179,7 @@ All technical content and editions are separated from presentation code:
 - **Features & Badges**: Edit [`src/config/features.ts`](src/config/features.ts) to add features or update status (`AVAILABLE`, `BETA`, `IN_DEVELOPMENT`, `PLANNED`).
 - **Roadmap**: Edit [`src/config/roadmap.ts`](src/config/roadmap.ts) to update development milestones.
 - **Downloads & Requirements**: Edit [`src/config/downloads.ts`](src/config/downloads.ts) to update releases and hardware requirements.
-- **Documentation**: Edit [`src/config/docs.ts`](src/config/docs.ts) to add or edit user guides and tutorials.
+- **Documentation**: Markdown pages in [`src/content/docs/`](src/content/docs/). See [`docs/DOCUMENTATION.md`](docs/DOCUMENTATION.md) for page format, TSA contextual help IDs, checks and publication.
 - **Translations**: Edit [`src/i18n/translations/fr.ts`](src/i18n/translations/fr.ts) and [`src/i18n/translations/en.ts`](src/i18n/translations/en.ts).
 
 ---

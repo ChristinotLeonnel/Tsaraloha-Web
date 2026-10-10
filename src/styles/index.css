@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+/* Configuration historique (couleurs tsa-*, polices, animations) reprise telle quelle. */
+@config "../../tailwind.config.js";
+/* Mode sombre par classe .dark (ThemeContext), comme en Tailwind 3. */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {

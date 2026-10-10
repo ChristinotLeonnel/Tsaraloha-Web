@@ -85,25 +85,5 @@ export interface DownloadPlatform {
   requirementsFr: string[];
 }
 
-export interface DocSection {
-  id: string;
-  titleEn: string;
-  titleFr: string;
-  articles: DocArticle[];
-}
-
-export interface DocArticle {
-  id: string;
-  slug: string;
-  titleEn: string;
-  titleFr: string;
-  descriptionEn: string;
-  descriptionFr: string;
-  readTime: string;
-  category: string;
-  contentEn: string;
-  contentFr: string;
-}
-
 export type Language = 'en' | 'fr';
 export type Theme = 'light' | 'dark' | 'system';

@@ -19,13 +19,14 @@ import { RoadmapPage } from './pages/RoadmapPage';
 import { ChangelogPage } from './pages/ChangelogPage';
 import { AboutPage } from './pages/AboutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { SupportPage } from './pages/SupportPage';
 
 const AppContent: React.FC = () => {
   const { currentPath } = useRouter();
 
   // Route resolver
   const renderCurrentPage = () => {
-    const cleanPath = currentPath.split('?')[0].split('#')[0];
+    const cleanPath = currentPath.split('?')[0].split('#')[0].replace(/(.)\/+$/, '$1');
 
     switch (cleanPath) {
       case '/':
@@ -53,9 +54,11 @@ const AppContent: React.FC = () => {
         return <ChangelogPage />;
       case '/about':
         return <AboutPage />;
+      case '/support':
+        return <SupportPage />;
       default:
-        // Handle nested docs routes like /docs/introduction
-        if (cleanPath.startsWith('/docs')) {
+        // Pages de documentation : /docs/<catégorie> et /docs/<catégorie>/<page>
+        if (cleanPath.startsWith('/docs/')) {
           return <DocsPage />;
         }
         return <NotFoundPage />;

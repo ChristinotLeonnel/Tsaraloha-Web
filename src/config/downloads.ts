@@ -2,7 +2,7 @@ import { DownloadPlatform } from '../types';
 
 export const systemRequirements = {
   minimum: {
-    os: 'Windows 10 (64-bit) / Ubuntu 22.04 LTS (64-bit)',
+    os: 'Windows 10 (64-bit)',
     cpu: 'Intel Core i5 (4 cores, 2.5 GHz) or AMD Ryzen 5',
     ram: '8 GB DDR4',
     gpu: 'OpenGL 3.3 compatible graphics card with 2 GB VRAM',
@@ -10,7 +10,7 @@ export const systemRequirements = {
     display: '1920 × 1080 resolution',
   },
   recommended: {
-    os: 'Windows 11 (64-bit) / Ubuntu 24.04 LTS (64-bit)',
+    os: 'Windows 11 (64-bit)',
     cpu: 'Intel Core i7/i9 (8+ cores) or AMD Ryzen 7/9',
     ram: '16 to 32 GB DDR4/DDR5',
     gpu: 'Dedicated NVIDIA GeForce / Quadro or AMD Radeon with 6+ GB VRAM (OpenGL 4.5+)',
