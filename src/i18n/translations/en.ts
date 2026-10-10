@@ -6,6 +6,7 @@ export const en = {
     bim: 'BIM & CAD',
     coEngineering: 'Co-Engineering AI',
     docs: 'Documentation',
+    support: 'Support',
     downloads: 'Downloads',
     pricing: 'Pricing',
     licensing: 'Licensing',

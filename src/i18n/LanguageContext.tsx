@@ -14,6 +14,9 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     try {
+      // « ?lang=fr|en » : langue demandée par le bouton Aide de TSA (prioritaire, non mémorisée).
+      const requested = new URLSearchParams(window.location.search).get('lang');
+      if (requested === 'fr' || requested === 'en') return requested;
       const saved = localStorage.getItem('tsa_lang');
       if (saved === 'fr' || saved === 'en') return saved;
       return navigator.language.startsWith('fr') ? 'fr' : 'en';
