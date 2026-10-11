@@ -34,8 +34,8 @@ export const docCategories: DocCategory[] = [
     order: 4,
     title: { fr: 'Maillage', en: 'Meshing' },
     description: {
-      fr: 'État du maillage dans TSA et estimation des éléments finis.',
-      en: 'Meshing status in TSA and finite element estimate.',
+      fr: 'Maillage Gmsh des barres, dalles, voiles et semelles : paramètres, qualité, affichage et calcul.',
+      en: 'Gmsh meshing of members, slabs, walls and footings: settings, quality, display and analysis.',
     },
   },
   {

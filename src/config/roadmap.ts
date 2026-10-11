@@ -43,17 +43,18 @@ export const roadmapItems: RoadmapItem[] = [
     tags: ['CAD', 'Grids', 'WorkPlane'],
   },
 
-  // --- In Development ---
   {
     id: 'road-shell-meshing',
-    titleEn: 'Automated 2D Plate & Shell Meshing',
-    titleFr: 'Maillage Automatique de Plaques & Coques 2D',
-    descriptionEn: 'Robust triangular and quadrilateral discretization of slabs, wall panels, and diaphragms with boundary conforming mesh generators.',
-    descriptionFr: 'Discrétisation triangulaire et quadrangulaire de dalles et voiles avec respect strict des contours et ouvertures.',
-    status: 'in_development',
+    titleEn: 'Finite Element Meshing (Gmsh) & 3D Mesh Display',
+    titleFr: 'Maillage Éléments Finis (Gmsh) & Affichage 3D du Maillage',
+    descriptionEn: 'Gmsh meshing of members, slabs with openings, walls and footings, quality control, and mesh display, inspection and displacements in the TSA 3D view.',
+    descriptionFr: 'Maillage Gmsh des barres, dalles avec ouvertures, voiles et semelles, contrôle de qualité, et affichage, inspection et déplacements du maillage dans la vue 3D de TSA.',
+    status: 'completed',
     quarter: 'Q4 2026',
-    tags: ['Meshing', 'Slabs', 'FEM'],
+    tags: ['Meshing', 'Gmsh', 'Visualization'],
   },
+
+  // --- In Development ---
   {
     id: 'road-modal-dynamics',
     titleEn: 'Modal Dynamics & Seismic Spectrum',
