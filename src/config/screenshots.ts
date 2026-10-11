@@ -1,12 +1,12 @@
-// Captures d'écran de l'application TSA réelle (tools/ui_tests/demo_screenshots.ps1 du dépôt TSA) sur les trois
-// projets de démonstration (TSA_TestSuite --suite=demo). Images : public/images/tsa/screenshots/<id>.webp (1920 px)
+// Captures d'écran de l'application TSA réelle : trois modèles filaires (tools/ui_tests/demo_screenshots.ps1 du dépôt
+// TSA) et quatre projets complets (tools/ui_tests/showcase_captures.ps1 : rendu texturé, calcul F5, résultats). Images : public/images/tsa/screenshots/<id>.webp (1920 px)
 // et <id>-960.webp. Aucune retouche autre que le redimensionnement.
 
 import type { Language } from '../types';
 
 const base = import.meta.env.BASE_URL;
 
-export type DemoProjectId = 'pont' | 'hangar' | 'batiment';
+export type DemoProjectId = 'pont' | 'hangar' | 'batiment' | 'ba' | 'mixte' | 'complexe' | 'haubans';
 
 export interface Screenshot {
   id: string;
@@ -82,6 +82,102 @@ export const screenshots: Screenshot[] = [
     project: 'batiment',
     alt: { fr: 'TSA : structure de plusieurs niveaux du bâtiment, poutres principales et secondaires', en: 'TSA: multi-level structure of the building, primary and secondary beams' },
     caption: { fr: 'Plusieurs niveaux : poutres principales et secondaires, poteaux, palées', en: 'Several levels: primary and secondary beams, columns, bracing' },
+  },
+  {
+    id: 'ba-physique',
+    project: 'ba',
+    alt: { fr: 'TSA : le bâtiment en béton armé R+4, modèle physique, rendu texturé (béton coffré, acier peint)', en: 'TSA: the five-storey RC building, physical model, textured rendering (formed concrete, painted steel)' },
+    caption: { fr: 'Modèle physique au rendu texturé', en: 'Physical model, textured rendering' },
+  },
+  {
+    id: 'ba-aretes',
+    project: 'ba',
+    alt: { fr: 'TSA : le bâtiment en béton armé R+4, volumes avec arêtes (Affichage > Rendu)', en: 'TSA: the five-storey RC building, solids with edges (View > Rendering)' },
+    caption: { fr: 'Rendu texturé avec arêtes des volumes', en: 'Textured rendering with solid edges' },
+  },
+  {
+    id: 'ba-resultats',
+    project: 'ba',
+    alt: { fr: 'TSA : le bâtiment en béton armé R+4, résultats du calcul F5 : déformée amplifiée, réactions, synthèse', en: 'TSA: the five-storey RC building, F5 analysis results: amplified deformed shape, reactions, summary' },
+    caption: { fr: 'Calcul OpenSees (F5) : déformée amplifiée et synthèse des résultats', en: 'OpenSees analysis (F5): amplified deformed shape and results summary' },
+  },
+  {
+    id: 'ba-contraintes',
+    project: 'ba',
+    alt: { fr: 'TSA : le bâtiment en béton armé R+4, diagramme de contrainte normale σ = N/A ± M/W', en: 'TSA: the five-storey RC building, normal stress diagram σ = N/A ± M/W' },
+    caption: { fr: 'Contrainte normale de fibre extrême σ = N/A ± M/W', en: 'Extreme-fibre normal stress σ = N/A ± M/W' },
+  },
+  {
+    id: 'mixte-physique',
+    project: 'mixte',
+    alt: { fr: 'TSA : le bâtiment mixte béton armé et acier, modèle physique, rendu texturé (béton coffré, acier peint)', en: 'TSA: the mixed RC and steel building, physical model, textured rendering (formed concrete, painted steel)' },
+    caption: { fr: 'Modèle physique au rendu texturé', en: 'Physical model, textured rendering' },
+  },
+  {
+    id: 'mixte-aretes',
+    project: 'mixte',
+    alt: { fr: 'TSA : le bâtiment mixte béton armé et acier, volumes avec arêtes (Affichage > Rendu)', en: 'TSA: the mixed RC and steel building, solids with edges (View > Rendering)' },
+    caption: { fr: 'Rendu texturé avec arêtes des volumes', en: 'Textured rendering with solid edges' },
+  },
+  {
+    id: 'mixte-resultats',
+    project: 'mixte',
+    alt: { fr: 'TSA : le bâtiment mixte béton armé et acier, résultats du calcul F5 : déformée amplifiée, réactions, synthèse', en: 'TSA: the mixed RC and steel building, F5 analysis results: amplified deformed shape, reactions, summary' },
+    caption: { fr: 'Calcul OpenSees (F5) : déformée amplifiée et synthèse des résultats', en: 'OpenSees analysis (F5): amplified deformed shape and results summary' },
+  },
+  {
+    id: 'mixte-contraintes',
+    project: 'mixte',
+    alt: { fr: 'TSA : le bâtiment mixte béton armé et acier, diagramme de contrainte normale σ = N/A ± M/W', en: 'TSA: the mixed RC and steel building, normal stress diagram σ = N/A ± M/W' },
+    caption: { fr: 'Contrainte normale de fibre extrême σ = N/A ± M/W', en: 'Extreme-fibre normal stress σ = N/A ± M/W' },
+  },
+  {
+    id: 'complexe-physique',
+    project: 'complexe',
+    alt: { fr: 'TSA : le bâtiment complexe en L, modèle physique, rendu texturé (béton coffré, acier peint)', en: 'TSA: the L-shaped complex building, physical model, textured rendering (formed concrete, painted steel)' },
+    caption: { fr: 'Modèle physique au rendu texturé', en: 'Physical model, textured rendering' },
+  },
+  {
+    id: 'complexe-aretes',
+    project: 'complexe',
+    alt: { fr: 'TSA : le bâtiment complexe en L, volumes avec arêtes (Affichage > Rendu)', en: 'TSA: the L-shaped complex building, solids with edges (View > Rendering)' },
+    caption: { fr: 'Rendu texturé avec arêtes des volumes', en: 'Textured rendering with solid edges' },
+  },
+  {
+    id: 'complexe-resultats',
+    project: 'complexe',
+    alt: { fr: 'TSA : le bâtiment complexe en L, résultats du calcul F5 : déformée amplifiée, réactions, synthèse', en: 'TSA: the L-shaped complex building, F5 analysis results: amplified deformed shape, reactions, summary' },
+    caption: { fr: 'Calcul OpenSees (F5) : déformée amplifiée et synthèse des résultats', en: 'OpenSees analysis (F5): amplified deformed shape and results summary' },
+  },
+  {
+    id: 'complexe-contraintes',
+    project: 'complexe',
+    alt: { fr: 'TSA : le bâtiment complexe en L, diagramme de contrainte normale σ = N/A ± M/W', en: 'TSA: the L-shaped complex building, normal stress diagram σ = N/A ± M/W' },
+    caption: { fr: 'Contrainte normale de fibre extrême σ = N/A ± M/W', en: 'Extreme-fibre normal stress σ = N/A ± M/W' },
+  },
+  {
+    id: 'haubans-physique',
+    project: 'haubans',
+    alt: { fr: 'TSA : le pont à haubans, modèle physique, rendu texturé (béton coffré, acier peint)', en: 'TSA: the cable-stayed bridge, physical model, textured rendering (formed concrete, painted steel)' },
+    caption: { fr: 'Modèle physique au rendu texturé', en: 'Physical model, textured rendering' },
+  },
+  {
+    id: 'haubans-aretes',
+    project: 'haubans',
+    alt: { fr: 'TSA : le pont à haubans, volumes avec arêtes (Affichage > Rendu)', en: 'TSA: the cable-stayed bridge, solids with edges (View > Rendering)' },
+    caption: { fr: 'Rendu texturé avec arêtes des volumes', en: 'Textured rendering with solid edges' },
+  },
+  {
+    id: 'haubans-resultats',
+    project: 'haubans',
+    alt: { fr: 'TSA : le pont à haubans, résultats du calcul F5 : déformée amplifiée, réactions, synthèse', en: 'TSA: the cable-stayed bridge, F5 analysis results: amplified deformed shape, reactions, summary' },
+    caption: { fr: 'Calcul OpenSees (F5) : déformée amplifiée et synthèse des résultats', en: 'OpenSees analysis (F5): amplified deformed shape and results summary' },
+  },
+  {
+    id: 'haubans-effort-normal',
+    project: 'haubans',
+    alt: { fr: 'TSA : le pont à haubans, diagramme d’effort normal dans les haubans et le tablier', en: 'TSA: the cable-stayed bridge, axial force diagram in the stays and deck' },
+    caption: { fr: 'Diagramme d’effort normal N dans les haubans et le tablier', en: 'Axial force N diagram in the stays and deck' },
   },
 ];
 

@@ -4,6 +4,7 @@
 //   - favicon (copie exacte de TSA.svg)                                                  → public/favicon.svg
 //   - icônes d'application (resources/icons/png/TSA_app_*.png)                           → public/assets/branding/
 //   - icônes métier réellement affichées par l'application (ruban, menus)                → public/assets/icons/tsa/
+//   - projets de démonstration examples/*.tsa et notes examples/notes/*.pdf                → public/examples/, public/notes/
 // Les anciennes copies (public/assets/icons/*.svg, versions antérieures) sont supprimées pour qu'il n'existe qu'une
 // copie de chaque ressource. Code de sortie 1 si une ressource attendue manque dans TSA.
 
@@ -53,6 +54,14 @@ if (existsSync(legacy))
     if (statSync(p).isFile()) rmSync(p);
   }
 for (const f of appUiIcons) copy(join(icons, f), join(legacy, 'tsa', f));
+
+// Projets de démonstration (.tsa) et notes de calcul PDF produits par la suite « demo » de TSA (examples/)
+const examples = join(tsa, 'examples');
+if (existsSync(examples)) {
+  for (const f of readdirSync(examples)) if (f.endsWith('.tsa')) copy(join(examples, f), join(site, 'public', 'examples', f));
+  const notes = join(examples, 'notes');
+  if (existsSync(notes)) for (const f of readdirSync(notes)) if (f.endsWith('.pdf')) copy(join(notes, f), join(site, 'public', 'notes', f));
+} else missing.push(examples);
 
 console.log(`${copied} ressource(s) copiée(s) depuis ${tsa}`);
 if (missing.length) {
