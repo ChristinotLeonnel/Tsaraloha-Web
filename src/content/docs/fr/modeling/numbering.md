@@ -4,7 +4,7 @@ description: Choisir la méthode de numérotation des nœuds et des éléments, 
 order: 12
 status: available
 version: 0.1.0
-updated: 2026-10-10
+updated: 2026-10-11
 keywords: [numérotation, renumérotation, étiquette, topologie, grille, A1, BFS, DFS, Cuthill-McKee, numbering]
 helpIds: [project.topology]
 ---
@@ -78,7 +78,7 @@ sélectionnées** ne renumérote que la sélection. Par défaut, les étiquettes
 | Méthode | Raison |
 | :--- | :--- |
 | Par sous-modèle ou groupe | TSA ne gère pas encore de groupes |
-| Orientées maillage | TSA ne génère pas encore de maillage éléments finis |
+| Orientées maillage | La numérotation du modèle ne s'applique pas encore aux nœuds et éléments du maillage, numérotés à la génération |
 
 Elles apparaissent dans la liste avec la mention « indisponible ».
 

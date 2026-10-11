@@ -4,7 +4,7 @@ description: Ce que fait TSA aujourd'hui, ce qui est expérimental et ce qui est
 order: 1
 status: available
 version: 0.1.0
-updated: 2026-10-10
+updated: 2026-10-11
 keywords: [présentation, fonctions, état, overview, features]
 helpIds: [general.about]
 ---
@@ -25,7 +25,8 @@ finis. Les résultats s'affichent dans la vue 3D, dans des tableaux et dans une 
 | Analyse statique non linéaire (OpenSees) | Expérimental | Options avancées du moteur |
 | Analyse d'ossatures planes (Custom2D) | Expérimental | Portiques et treillis plans |
 | Analyse dynamique (modale, temporelle) | Non disponible | Retirée de la version actuelle |
-| Maillage éléments finis des surfaces | Prévu | Seule une estimation est proposée |
+| Maillage éléments finis (Gmsh) : barres, dalles, voiles, semelles | Disponible | Seuls les éléments des barres sont transmis au calcul |
+| Affichage et inspection du maillage dans la vue 3D | Disponible | Modes, filtres, coupe, sélection, déplacements sur le maillage |
 | Note de calcul PDF et HTML | Disponible | Générée à partir des résultats |
 | Import et export IFC | Expérimental | Export partiel |
 

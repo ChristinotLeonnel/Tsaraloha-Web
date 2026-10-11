@@ -4,7 +4,7 @@ description: What TSA does today, what is experimental and what is planned.
 order: 1
 status: available
 version: 0.1.0
-updated: 2026-10-10
+updated: 2026-10-11
 keywords: [about, features, status, overview]
 helpIds: [general.about]
 ---
@@ -24,7 +24,8 @@ and supports, apply loads, and analyse it with a finite element engine.
 | Nonlinear static analysis | Experimental | |
 | Plane frame engine (Custom2D) | Experimental | |
 | Dynamic analysis | Not available | Removed from the current version |
-| Surface meshing | Planned | Estimate only |
+| Finite element meshing (Gmsh): members, slabs, walls, footings | Available | Only member elements are sent to the analysis |
+| Mesh display and inspection in the 3D view | Available | Display modes, filters, cut, selection, displacements on the mesh |
 | PDF and HTML calculation report | Available | |
 | IFC import and export | Experimental | Partial export |
 
