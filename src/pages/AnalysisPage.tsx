@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Card } from '../components/Card';
 import { CodeBlock } from '../components/CodeBlock';
+import { ScreenshotFigure } from '../components/ScreenshotFigure';
 import { SEOHead } from '../components/SEOHead';
 import {
   Cpu,
@@ -107,6 +108,31 @@ print("TSA_OPENSEESPY_SUCCESS")`;
               ? 'TSA associe une modélisation CAO tridimensionnelle intuitive à la rigueur de calcul d\'OpenSees, le solveur d\'éléments finis développé par l\'Université de Californie à Berkeley.'
               : 'TSA bridges intuitive 3D CAD modeling with the analytical rigor of OpenSees, the world-renowned finite element solver developed at UC Berkeley.'}
           </p>
+        </div>
+
+        {/* Modèle réellement calculé : bâtiment de démonstration (calcul OpenSees sous poids propre) */}
+        <div className="mb-16 grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+          <ScreenshotFigure
+            id="batiment-facade"
+            gallery={['batiment-perspective', 'batiment-facade', 'batiment-niveaux-escalier']}
+            sizes="(min-width: 1024px) 60vw, 100vw"
+            className="lg:col-span-3"
+          />
+          <div className="lg:col-span-2 space-y-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              {language === 'fr' ? 'Un modèle, un calcul réel' : 'One model, one real analysis'}
+            </h2>
+            <p>
+              {language === 'fr'
+                ? 'Ce bâtiment R+5 (380 nœuds, 798 barres) a été construit dans TSA puis calculé par OpenSees sous son poids propre : la structure est stable, le déplacement maximal est de 4,5 mm.'
+                : 'This six-storey building (380 nodes, 798 members) was built in TSA and analysed by OpenSees under self-weight: the structure is stable, with a maximum displacement of 4.5 mm.'}
+            </p>
+            <p>
+              {language === 'fr'
+                ? 'Les barres sont transmises au moteur comme éléments poutres ; les dalles et voiles ne sont pas encore calculés.'
+                : 'Members are sent to the solver as beam elements; slabs and walls are not analysed yet.'}
+            </p>
+          </div>
         </div>
 
         {/* Workflow Diagram & Steps */}

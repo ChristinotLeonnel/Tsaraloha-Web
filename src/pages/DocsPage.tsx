@@ -26,6 +26,8 @@ import {
   LifeBuoy,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { TsaIcon } from '../components/TsaIcon';
+import type { TsaIconKey } from '../config/tsaIcons';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Link, useRouter } from '../router/RouterContext';
 import { SEOHead } from '../components/SEOHead';
@@ -33,18 +35,23 @@ import { siteConfig } from '../config/site';
 import { docCategories, categoryById } from '../docs/categories';
 import { findPage, pagesOfCategory, neighbours } from '../docs/catalog';
 
-// Icône de chaque catégorie (index de la documentation, menu latéral).
-const categoryIcons: Record<string, LucideIcon> = {
-  'getting-started': Rocket,
-  modeling: Boxes,
-  loading: ArrowDownToLine,
-  mesh: Grid3X3,
-  analysis: Activity,
-  results: ChartColumn,
-  bim: Building2,
-  troubleshooting: LifeBuoy,
+// Icône de chaque catégorie (index de la documentation, menu latéral) : icône officielle de TSA pour la même
+// fonction, sinon Lucide.
+const categoryTsaIcons: Record<string, TsaIconKey> = {
+  'getting-started': 'newProject',
+  modeling: 'beam',
+  loading: 'distributedLoad',
+  mesh: 'mesh',
+  analysis: 'analysisRun',
+  results: 'displacements',
+  bim: 'exportIfc',
+  troubleshooting: 'help',
 };
-const CategoryIcon: React.FC<{ id: string; className?: string }> = ({ id, className }) => {
+const categoryIcons: Record<string, LucideIcon> = { 'getting-started': Rocket, modeling: Boxes, loading: ArrowDownToLine, mesh: Grid3X3,
+  analysis: Activity, results: ChartColumn, bim: Building2, troubleshooting: LifeBuoy };
+const CategoryIcon: React.FC<{ id: string; className?: string; size?: number }> = ({ id, className, size = 16 }) => {
+  const tsa = categoryTsaIcons[id];
+  if (tsa) return <TsaIcon name={tsa} size={size} className={className} />;
   const Icon = categoryIcons[id] ?? BookOpen;
   return <Icon className={className} aria-hidden />;
 };
@@ -258,7 +265,7 @@ const Sidebar: React.FC<{ language: DocLanguage; currentPath: string; onNavigate
             onClick={onNavigate}
             className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 px-2 mb-1.5 hover:text-slate-700 dark:hover:text-slate-200"
           >
-            <CategoryIcon id={cat.id} className="w-3.5 h-3.5" />
+            <CategoryIcon id={cat.id} className="w-3.5 h-3.5" size={14} />
             {cat.title[language]}
           </Link>
           <ul className="space-y-0.5">
@@ -334,7 +341,7 @@ const DocsHome: React.FC<{ language: DocLanguage }> = ({ language }) => {
               className="group flex gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-tsa-surface-card hover:border-tsa-blue-500 dark:hover:border-tsa-cyan-400 hover:-translate-y-0.5 transition-all"
             >
               <span className="shrink-0 w-10 h-10 rounded-xl bg-tsa-blue-500/10 text-tsa-blue-600 dark:text-tsa-cyan-400 flex items-center justify-center">
-                <CategoryIcon id={cat.id} className="w-5 h-5" />
+                <CategoryIcon id={cat.id} className="w-5 h-5" size={22} />
               </span>
               <span className="min-w-0">
                 <span className="flex items-center gap-1 font-bold text-slate-900 dark:text-white">

@@ -13,7 +13,7 @@
 This website serves as the official public portal for **TSA (Tsaraloha Structural Analysis)**. It is engineered with modern web standards, scientific accuracy, and an engineering aesthetic inspired by leading CAD/FEM software.
 
 ### Key Capabilities
-- **Interactive 3D Viewport Simulator**: Canvas-based interactive portal frame simulation allowing live toggling of undeformed geometry, deformed shape $\{U\}$, bending moment diagrams ($M_y$), axial force tension/compression ($N$), and dynamic modal vibration.
+- **Real Software Screenshots**: screenshots taken in the running TSA application on three demonstration projects (truss bridge, steel hangar, six-storey building), with the `.tsa` files available for download.
 - **Finite Element Pipeline Explorer**: Step-by-step walkthrough of the structural modeling to OpenSees solver translation.
 - **Complete Module Catalog**: Full list of 3D modeling, CAD manipulation, finite element meshing, and result extraction features labeled with real-time status badges (`AVAILABLE`, `BETA`, `IN_DEVELOPMENT`, `PLANNED`).
 - **Co-Engineering AI Showcase**: Demonstration of how AI acts as an engineering co-pilot without compromising human engineering responsibility.
@@ -57,7 +57,7 @@ TSA Web/
 │   │   ├── EngineeringWorkflow.tsx # Interactive 5-step computational pipeline
 │   │   ├── Footer.tsx            # Footer with legal attributions and links
 │   │   ├── GithubIcon.tsx        # Vector SVG GitHub icon
-│   │   ├── InteractiveViewport.tsx # 3D structural frame simulation canvas
+│   │   ├── ScreenshotFigure.tsx    # Real TSA screenshots with caption and enlargement
 │   │   ├── Navbar.tsx            # Responsive navigation header with FR/EN & theme toggles
 │   │   ├── SEOHead.tsx           # Dynamic page title and meta description manager
 │   │   └── Tabs.tsx              # Tab switcher controls

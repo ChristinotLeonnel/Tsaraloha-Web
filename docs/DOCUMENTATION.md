@@ -110,3 +110,16 @@ Les captures et `report.json` sont écrits dans `audit-out/` (ignoré par Git).
 4. Vérifier ensuite quelques adresses directes, par exemple `/docs/loading/distributed-loads`.
 
 Une construction échoue si `check:docs` trouve une erreur : aucune page cassée n'est publiée.
+
+## 8. Ressources graphiques et captures du logiciel
+
+- **Logo et icônes** : copiés depuis le dépôt du logiciel (`../TSA/resources/icons`, ceux qu'utilise l'application)
+  par `npm run sync:tsa-assets` (variable `TSA_ROOT` si le dépôt est ailleurs). Ne pas modifier les copies du site :
+  modifier la ressource dans TSA puis relancer la synchronisation. Correspondance des icônes et usage réel dans
+  l'application : `src/config/tsaIcons.ts`.
+- **Captures** : `public/images/tsa/screenshots/<id>.webp` (1920 px) et `<id>-960.webp`, légendes et textes
+  alternatifs dans `src/config/screenshots.ts`. Elles proviennent de l'application exécutée :
+  1. `TSA_DEMO_DIR=<TSA>/examples TSA_TestSuite --suite=demo` (dépôt TSA) écrit les trois projets ;
+  2. `tools/ui_tests/demo_screenshots.ps1 -OutDir <dossier>` (dépôt TSA) ouvre chaque projet dans TSA et capture
+     les vues ;
+  3. conversion en WebP (redimensionnement seul, aucune retouche) puis copie des projets dans `public/examples/`.

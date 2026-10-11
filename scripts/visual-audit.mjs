@@ -113,7 +113,8 @@ const PAGE_PROBE = `(() => {
       if (overflow.length >= 8) break;
     }
   }
-  const brokenImages = [...document.images].filter((i) => i.complete && i.naturalWidth === 0 && visible(i)).map((i) => i.getAttribute('src'));
+  const brokenImages = [...document.images].filter((i) => (!i.complete || i.naturalWidth === 0) && visible(i)).map((i) => i.getAttribute('src'));
+  const imageCount = [...document.images].filter(visible).length;
   const noAlt = [...document.images].filter((i) => !i.hasAttribute('alt')).map((i) => i.getAttribute('src'));
   const unnamed = [...document.querySelectorAll('button, a[href], [role=button]')].filter((el) => visible(el) &&
     !(el.textContent || '').trim() && !el.getAttribute('aria-label') && !el.getAttribute('title') &&
@@ -122,7 +123,7 @@ const PAGE_PROBE = `(() => {
   const fonts = [...new Set([...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/"/g, '')))];
   const clipped = [...document.querySelectorAll('h1,h2,h3,button,a')].filter((el) => visible(el) &&
     el.scrollWidth > el.clientWidth + 2 && ['hidden', 'clip'].includes(getComputedStyle(el).overflowX)).map(describe).slice(0, 6);
-  return { title: document.title, overflow, brokenImages, noAlt, unnamed, links, fonts, clipped,
+  return { title: document.title, overflow, brokenImages, imageCount, noAlt, unnamed, links, fonts, clipped,
            height: document.documentElement.scrollHeight };
 })()`;
 
@@ -141,6 +142,14 @@ async function openTarget(cdp) {
 async function navigate(s, url) {
   await s('Page.navigate', { url });
   await sleep(1800); // rendu React, polices, images
+  // Défilement jusqu'en bas : les images en chargement différé (loading="lazy") sont chargées puis contrôlées
+  await s('Runtime.evaluate', { awaitPromise: true, expression: `(async () => {
+    const step = Math.max(300, innerHeight * 0.8);
+    for (let y = 0; y < document.documentElement.scrollHeight; y += step) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 120)); }
+    await Promise.all([...document.images].map((i) => i.complete ? null : new Promise((r) => { i.onload = i.onerror = r; setTimeout(r, 4000); })));
+    scrollTo(0, 0);
+  })()` });
+  await sleep(300);
 }
 
 async function evaluate(s, expr) {
@@ -268,6 +277,8 @@ async function main() {
     writeFileSync(join(OUT, 'report.json'), JSON.stringify({ base: BASE, report, interactions }, null, 2));
     const fonts = [...new Set(report.flatMap((r) => r.fonts))];
     console.log(`${PAGES.length} pages × ${SIZES.length} résolutions ; polices chargées : ${fonts.join(', ') || 'aucune'}`);
+    const images = report.filter((r) => r.size === SIZES[0].name).map((r) => `${r.page} ${r.imageCount}`).join(', ');
+    console.log(`images chargées et visibles (${SIZES[0].name} px) : ${images}`);
     for (const [name, value] of interactions) console.log(`${name} : ${JSON.stringify(value)}`);
     if (problems.length) {
       console.log(`\n${problems.length} problème(s) :`);
