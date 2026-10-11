@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Card } from '../components/Card';
-import { Badge } from '../components/Badge';
-import { Button } from '../components/Button';
 import { SEOHead } from '../components/SEOHead';
 import {
   Sparkles,
@@ -10,12 +8,7 @@ import {
   Cpu,
   Brain,
   FileText,
-  AlertTriangle,
   CheckCircle2,
-  Terminal,
-  MessageSquare,
-  ArrowRight,
-  Send,
 } from 'lucide-react';
 
 export const CoEngineeringPage: React.FC = () => {

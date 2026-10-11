@@ -2,37 +2,42 @@ import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Button } from '../components/Button';
 import { SEOHead } from '../components/SEOHead';
-import { Home, Compass } from 'lucide-react';
+import { BrandLogo } from '../components/BrandLogo';
+import { House, BookOpen } from 'lucide-react';
 
 export const NotFoundPage: React.FC = () => {
   const { language } = useLanguage();
+  const fr = language === 'fr';
 
   return (
     <div className="w-full min-h-[60vh] flex items-center justify-center py-20 px-4">
-      <SEOHead title="404 — Page Not Found" />
+      <SEOHead title={fr ? '404 — Page introuvable' : '404 — Page not found'} />
 
       <div className="max-w-md mx-auto text-center">
-        <div className="w-16 h-16 rounded-2xl bg-tsa-blue-500/10 text-tsa-blue-600 dark:text-tsa-cyan-400 flex items-center justify-center mx-auto mb-6">
-          <Compass className="w-8 h-8" />
-        </div>
+        <BrandLogo size="xl" className="mx-auto mb-6" />
 
-        <span className="font-mono text-xs font-bold text-tsa-blue-600 dark:text-tsa-cyan-400 uppercase tracking-widest">
-          ERROR 404
+        <span className="font-mono text-xs font-bold text-tsa-blue-700 dark:text-tsa-cyan-300 uppercase tracking-widest">
+          {fr ? 'Erreur 404' : 'Error 404'}
         </span>
 
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-2 mb-4">
-          {language === 'fr' ? 'Page Introuvable' : 'Coordinate Not Found'}
+          {fr ? 'Page introuvable' : 'Page not found'}
         </h1>
 
         <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-          {language === 'fr'
-            ? 'La page ou la ressource que vous recherchez semble inexistante ou a été déplacée.'
-            : 'The spatial coordinates or documentation article you requested could not be located.'}
+          {fr
+            ? 'La page demandée n’existe pas ou a été déplacée. La documentation et l’accueil restent accessibles.'
+            : 'The requested page does not exist or has moved. The documentation and home page are still available.'}
         </p>
 
-        <Button href="/" variant="primary" icon={<Home className="w-4 h-4" />}>
-          {language === 'fr' ? 'Retour à l\'Accueil' : 'Return to Home'}
-        </Button>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Button href="/" variant="primary" icon={<House className="w-4 h-4" />}>
+            {fr ? 'Retour à l’accueil' : 'Back to home'}
+          </Button>
+          <Button href="/docs" variant="outline" icon={<BookOpen className="w-4 h-4" />}>
+            {fr ? 'Documentation' : 'Documentation'}
+          </Button>
+        </div>
       </div>
     </div>
   );

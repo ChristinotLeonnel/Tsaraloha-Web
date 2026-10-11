@@ -1,16 +1,12 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Card } from '../components/Card';
-import { Button } from '../components/Button';
 import { SEOHead } from '../components/SEOHead';
 import { siteConfig } from '../config/site';
 import {
   Scale,
-  ShieldCheck,
   ExternalLink,
   FileText,
-  AlertCircle,
-  CheckCircle,
 } from 'lucide-react';
 
 export const LicensingPage: React.FC = () => {
@@ -32,6 +28,14 @@ export const LicensingPage: React.FC = () => {
       url: 'https://dev.opencascade.org/',
       summaryEn: 'Industrial 3D B-Rep solid modeling and AIS/V3d visualization framework.',
       summaryFr: 'Noyau géométrique volumique B-Rep et moteur d\'affichage 3D AIS/V3d.',
+    },
+    {
+      name: 'Gmsh',
+      role: 'Finite Element Mesh Generator',
+      license: 'GNU General Public License v2 or later, with exceptions',
+      url: 'https://gmsh.info/',
+      summaryEn: 'Mesh generator used by TSA for members, slabs, walls and footings (1D, 2D and 3D elements).',
+      summaryFr: 'Mailleur utilisé par TSA pour les barres, dalles, voiles et semelles (éléments 1D, 2D et 3D).',
     },
     {
       name: 'Qt Framework',
@@ -57,6 +61,14 @@ export const LicensingPage: React.FC = () => {
       summaryEn: 'Open-source SVG symbol library for modern user interfaces.',
       summaryFr: 'Bibliothèque de symboles graphiques vectoriels pour interfaces modernes.',
     },
+    {
+      name: 'Inter, Outfit, JetBrains Mono (Fontsource)',
+      role: 'Website Typefaces',
+      license: 'SIL Open Font License 1.1',
+      url: 'https://fontsource.org/',
+      summaryEn: 'Typefaces of this website, served with the site (no external font CDN).',
+      summaryFr: 'Polices de ce site, hébergées avec lui (aucun CDN de polices externe).',
+    },
   ];
 
   return (
@@ -65,8 +77,8 @@ export const LicensingPage: React.FC = () => {
         title={language === 'fr' ? 'Licences & Mentions Légales' : 'Licensing & Legal Notices'}
         description={
           language === 'fr'
-            ? 'Licences de Tsaraloha Structural Analysis et des bibliothèques tierces intégrées : OpenSees, OpenCASCADE, Qt, Eigen.'
-            : 'Licenses for Tsaraloha Structural Analysis and integrated third-party frameworks: OpenSees, OpenCASCADE, Qt, Eigen.'
+            ? 'Licences de Tsaraloha Structural Analysis et des bibliothèques tierces intégrées : OpenSees, OpenCASCADE, Gmsh, Qt, Eigen.'
+            : 'Licenses for Tsaraloha Structural Analysis and integrated third-party frameworks: OpenSees, OpenCASCADE, Gmsh, Qt, Eigen.'
         }
       />
 

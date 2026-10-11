@@ -44,7 +44,18 @@ function render(route, title, description) {
     html = html.replace(/(<meta name="description" content=")[^"]*(")/, `$1${escapeHtml(description)}$2`);
   html = html.replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`);
   html = html.replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${escapeHtml(title)}$2`);
-  return html.replace('</head>', `    <link rel="canonical" href="${url}" />\n  </head>`);
+  return absolutizeImages(html).replace('</head>', `    <link rel="canonical" href="${url}" />\n  </head>`);
+}
+
+// Images de partage (Open Graph, Twitter) : adresse absolue, seule forme lue par les réseaux sociaux. Le chemin
+// construit commence par la base du site (/ ou /Tsaraloha-Web/), retirée avant d'ajouter l'adresse publique.
+function absolutizeImages(html) {
+  const basePath = (deployment.basePath ?? '/').replace(/\/+$/, '/');
+  return html.replace(/(<meta (?:property|name)="(?:og:image|twitter:image)" content=")([^"]+)(")/g, (m, a, src, c) => {
+    if (/^https?:/.test(src)) return m;
+    const path = src.startsWith(basePath) ? src.slice(basePath.length) : src.replace(/^\/+/, '');
+    return `${a}${siteUrl}/${path}${c}`;
+  });
 }
 
 let count = 0;
@@ -62,7 +73,7 @@ for (const [route, [title, description]] of routes) {
 }
 
 // Page d'accueil : adresse canonique.
-writeFileSync(join(dist, 'index.html'), template.replace('</head>', `    <link rel="canonical" href="${siteUrl}/" />\n  </head>`));
+writeFileSync(join(dist, 'index.html'), absolutizeImages(template).replace('</head>', `    <link rel="canonical" href="${siteUrl}/" />\n  </head>`));
 
 const today = new Date().toISOString().slice(0, 10);
 const urls = ['/', ...routes.keys()].map((route) => {

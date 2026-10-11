@@ -92,6 +92,16 @@ VITE_BASE_PATH=/Tsaraloha-Web/ npm run preview
 
 Sous Git Bash, préfixer ces commandes par `MSYS_NO_PATHCONV=1`.
 
+Audit visuel du site construit (Chrome requis, aucune dépendance) : pages et résolutions 1920, 1366, 1024 et
+390 px, erreurs de console, images cassées, débordements, noms accessibles, liens internes, menus et clavier.
+
+```bash
+npm run build && npx vite preview --port 4179   # dans un terminal
+npm run audit:visual                            # dans un autre ; --theme light pour le thème clair
+```
+
+Les captures et `report.json` sont écrits dans `audit-out/` (ignoré par Git).
+
 ## 7. Publier
 
 1. Fusionner la branche dans `main`.

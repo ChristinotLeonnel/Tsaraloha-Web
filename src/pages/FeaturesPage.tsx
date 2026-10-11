@@ -1,22 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { featureItems } from '../config/features';
-import { FeatureCategory, FeatureStatus } from '../types';
 import { Badge } from '../components/Badge';
 import { Card } from '../components/Card';
 import { Tabs } from '../components/Tabs';
 import { SEOHead } from '../components/SEOHead';
+import { featureCategories } from '../config/featureCategories';
 import {
   Search,
-  Box,
-  Move,
-  Activity,
-  Grid3X3,
-  BarChart2,
-  CheckCircle2,
-  Clock,
-  Wrench,
-  Compass,
 } from 'lucide-react';
 
 export const FeaturesPage: React.FC = () => {
@@ -26,14 +17,11 @@ export const FeaturesPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const categories = [
-    { id: 'all', label: language === 'fr' ? 'Toutes les catégories' : 'All Categories', icon: <Box className="w-4 h-4" /> },
-    { id: 'modeling', label: language === 'fr' ? 'Modélisation 3D' : '3D Modeling', icon: <Box className="w-4 h-4" /> },
-    { id: 'cad', label: language === 'fr' ? 'CAO & Manipulation' : 'CAD & Manipulation', icon: <Move className="w-4 h-4" /> },
-    { id: 'analysis', label: language === 'fr' ? 'Analyse & Solveurs' : 'Analysis & Solvers', icon: <Activity className="w-4 h-4" /> },
-    { id: 'meshing', label: language === 'fr' ? 'Maillage Éléments Finis' : 'Finite Element Meshing', icon: <Grid3X3 className="w-4 h-4" /> },
-    { id: 'results', label: language === 'fr' ? 'Résultats & Post-Traitement' : 'Results & Post-Processing', icon: <BarChart2 className="w-4 h-4" /> },
-  ];
+  const categories = featureCategories.map(({ id, label, icon: Icon }) => ({
+    id,
+    label: label[language],
+    icon: <Icon className="w-4 h-4" />,
+  }));
 
   const filteredFeatures = useMemo(() => {
     return featureItems.filter((item) => {

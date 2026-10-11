@@ -5,6 +5,8 @@ interface CardProps {
   className?: string;
   hoverEffect?: boolean;
   glow?: 'blue' | 'cyan' | 'none';
+  /** Faux : le contenu peut déborder du cadre (pastille posée sur le bord, menu). */
+  clip?: boolean;
   onClick?: () => void;
 }
 
@@ -13,6 +15,7 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   hoverEffect = false,
   glow = 'none',
+  clip = true,
   onClick,
 }) => {
   const hoverClass = hoverEffect
@@ -28,7 +31,7 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`rounded-2xl bg-white dark:bg-tsa-surface-card border ${glowClass} ${hoverClass} shadow-sm overflow-hidden ${className}`}
+      className={`rounded-2xl bg-white dark:bg-tsa-surface-card border ${glowClass} ${hoverClass} shadow-sm ${clip ? 'overflow-hidden' : ''} ${className}`}
     >
       {children}
     </div>

@@ -35,3 +35,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Audit visuel (npm run audit:visual)
+audit-out/

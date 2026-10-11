@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Eye, Layers, Compass, Play, Pause, RefreshCw, BarChart2, Activity, ZoomIn } from 'lucide-react';
+import { Layers, Play, Pause, Activity, } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 export const InteractiveViewport: React.FC = () => {

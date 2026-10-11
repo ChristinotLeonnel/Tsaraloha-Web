@@ -5,7 +5,6 @@ import { Card } from '../components/Card';
 import { SEOHead } from '../components/SEOHead';
 import {
   History,
-  Tag,
   Calendar,
   PlusCircle,
   RefreshCw,

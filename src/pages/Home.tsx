@@ -8,8 +8,8 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
-import { Link } from '../router/RouterContext';
 import { GithubIcon } from '../components/GithubIcon';
+import { featureCategory } from '../config/featureCategories';
 import {
   Cpu,
   Layers,
@@ -66,7 +66,7 @@ export const Home: React.FC = () => {
               </p>
 
               {/* 4 Main CTAs */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
+              <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
                 <Button href="/features" variant="glow" size="lg" icon={<Sparkles className="w-4 h-4" />}>
                   {t.hero.ctaDiscover}
                 </Button>
@@ -228,9 +228,15 @@ export const Home: React.FC = () => {
               <Card key={feat.id} hoverEffect className="p-6 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="text-xs font-mono uppercase font-semibold text-slate-500">
-                      {feat.category}
-                    </span>
+                    {(() => {
+                      const cat = featureCategory(feat.category);
+                      return (
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                          <cat.icon className="w-3.5 h-3.5" aria-hidden />
+                          {cat.label[language]}
+                        </span>
+                      );
+                    })()}
                     <Badge status={feat.status} size="sm" />
                   </div>
                   <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
@@ -337,7 +343,7 @@ export const Home: React.FC = () => {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-slate-400 text-sm font-medium text-slate-700 dark:text-slate-200"
             >
               <GithubIcon className="w-4 h-4" />
-              <span>GitHub Repository</span>
+              <span>{language === 'fr' ? 'Dépôt GitHub' : 'GitHub repository'}</span>
             </a>
           </div>
         </div>

@@ -3,19 +3,15 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { pricingTiers, pricingNotice } from '../config/pricing';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
-import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import {
   Check,
   X,
   AlertCircle,
-  HelpCircle,
-  ArrowRight,
-  ShieldAlert,
 } from 'lucide-react';
 
 export const PricingPage: React.FC = () => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
 
   return (
     <div className="w-full py-12 lg:py-16">
@@ -62,6 +58,7 @@ export const PricingPage: React.FC = () => {
               <Card
                 key={tier.id}
                 hoverEffect
+                clip={!isPopular}
                 className={`p-8 flex flex-col justify-between relative ${
                   isPopular
                     ? 'border-tsa-blue-500 ring-2 ring-tsa-blue-500/20 shadow-2xl tech-glow'

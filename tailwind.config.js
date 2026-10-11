@@ -44,9 +44,9 @@ export default {
         },
       },
       fontFamily: {
-        heading: ['Outfit', 'Inter', 'sans-serif'],
-        sans: ['Inter', 'Work Sans', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        heading: ['Outfit Variable', 'Outfit', 'Inter Variable', 'system-ui', 'sans-serif'],
+        sans: ['Inter Variable', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        mono: ['JetBrains Mono Variable', 'JetBrains Mono', 'Consolas', 'monospace'],
       },
       animation: {
         'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

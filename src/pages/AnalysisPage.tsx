@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Card } from '../components/Card';
-import { Badge } from '../components/Badge';
-import { Button } from '../components/Button';
 import { CodeBlock } from '../components/CodeBlock';
 import { SEOHead } from '../components/SEOHead';
 import {
   Cpu,
-  Activity,
-  Layers,
-  CheckCircle2,
-  Code,
-  ArrowRight,
   ExternalLink,
-  Zap,
-  TrendingUp,
 } from 'lucide-react';
 
 export const AnalysisPage: React.FC = () => {
