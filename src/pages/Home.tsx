@@ -4,6 +4,8 @@ import { siteConfig } from '../config/site';
 import { featureItems } from '../config/features';
 import { ScreenshotFigure } from '../components/ScreenshotFigure';
 import { DemoProjects } from '../components/DemoProjects';
+import { ShowcaseProjects } from '../components/ShowcaseProjects';
+import { WelcomeVideo } from '../components/WelcomeVideo';
 import { EngineeringWorkflow } from '../components/EngineeringWorkflow';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -191,22 +193,47 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Projets réalisés dans TSA : captures réelles et fichiers .tsa */}
+      {/* Vidéo de présentation : captures réelles, calculs et notes produits par TSA */}
+      <section className="py-16 sm:py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="welcome-video">
+        <div className="text-center mb-8">
+          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-tsa-blue-600 dark:text-tsa-cyan-400">
+            {language === 'fr' ? 'Présentation' : 'Overview'}
+          </span>
+          <h2 id="welcome-video" className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            {language === 'fr' ? 'TSA en 40 secondes' : 'TSA in 40 seconds'}
+          </h2>
+        </div>
+        <WelcomeVideo />
+      </section>
+
+      {/* Quatre projets complets réalisés dans TSA : captures réelles, calculs, notes et fichiers .tsa */}
       <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="demo-projects">
         <div className="max-w-3xl mb-10">
           <span className="text-xs font-mono font-semibold uppercase tracking-wider text-tsa-blue-600 dark:text-tsa-cyan-400">
-            {language === 'fr' ? 'Captures réelles du logiciel' : 'Real software screenshots'}
+            {language === 'fr' ? 'Projets réalisés dans TSA' : 'Projects built in TSA'}
           </span>
           <h2 id="demo-projects" className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            {language === 'fr' ? 'Trois structures modélisées dans TSA' : 'Three structures modeled in TSA'}
+            {language === 'fr' ? 'Quatre projets complets, calculés et documentés' : 'Four complete projects, analysed and documented'}
           </h2>
           <p className="mt-3 text-slate-600 dark:text-slate-400">
             {language === 'fr'
-              ? 'Un pont, un hangar et un bâtiment, construits uniquement en barres, enregistrés au format .tsa et capturés dans l’application, en représentation filaire analytique.'
-              : 'A bridge, a hangar and a building, made of members only, saved in the .tsa format and captured in the application, in analytical wireframe display.'}
+              ? 'Béton armé, mixte béton-acier, bâtiment complexe et pont à haubans : modèles enregistrés au format .tsa, calculés par OpenSees, capturés dans l’application et accompagnés de leurs notes de calcul. Exemples pédagogiques, non destinés à la construction.'
+              : 'Reinforced concrete, mixed concrete-steel, complex building and cable-stayed bridge: models saved in the .tsa format, analysed with OpenSees, captured in the application and provided with their design reports. Teaching examples, not intended for construction.'}
           </p>
         </div>
-        <DemoProjects />
+        <ShowcaseProjects />
+
+        <div className="mt-16 max-w-3xl mb-8">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+            {language === 'fr' ? 'Trois modèles filaires' : 'Three wireframe models'}
+          </h3>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {language === 'fr'
+              ? 'Un pont en treillis, un hangar et un bâtiment construits uniquement en barres, en représentation filaire analytique.'
+              : 'A truss bridge, a hangar and a building made of members only, in analytical wireframe display.'}
+          </p>
+        </div>
+        <DemoProjects headingLevel="h4" />
       </section>
 
       {/* Engineering Workflow Interactive Section */}

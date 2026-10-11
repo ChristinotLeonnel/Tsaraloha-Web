@@ -3,6 +3,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { downloadPlatforms, systemRequirements } from '../config/downloads';
 import { Card } from '../components/Card';
 import { DemoProjects } from '../components/DemoProjects';
+import { ShowcaseProjects } from '../components/ShowcaseProjects';
 import { CodeBlock } from '../components/CodeBlock';
 import { SEOHead } from '../components/SEOHead';
 import { GithubIcon } from '../components/GithubIcon';
@@ -140,10 +141,13 @@ export const DownloadsPage: React.FC = () => {
           </h2>
           <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 max-w-3xl">
             {language === 'fr'
-              ? 'Trois projets au format natif .tsa, construits avec TSA et vérifiés (connexions, relecture, calcul sous poids propre). Ouvrez-les avec le bouton Ouvrir du ruban (Ctrl+O).'
-              : 'Three projects in the native .tsa format, built with TSA and checked (connections, reload, self-weight analysis). Open them with the Open button of the ribbon (Ctrl+O).'}
+              ? 'Sept projets au format natif .tsa, construits avec TSA et vérifiés par sa suite de tests (connexions, calcul OpenSees, équilibre, relecture) : quatre projets complets avec leurs notes de calcul PDF, puis trois modèles filaires. Ouvrez-les avec le bouton Ouvrir du ruban (Ctrl+O).'
+              : 'Seven projects in the native .tsa format, built with TSA and checked by its test suite (connections, OpenSees analysis, equilibrium, reload): four complete projects with their PDF design reports, then three wireframe models. Open them with the Open button of the ribbon (Ctrl+O).'}
           </p>
-          <DemoProjects />
+          <ShowcaseProjects />
+          <div className="mt-8">
+            <DemoProjects />
+          </div>
         </section>
 
         {/* System Requirements Table */}

@@ -9,7 +9,7 @@ const fmt = (n: number, lang: 'fr' | 'en', digits = 0) =>
   n.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits });
 
 /** Les trois projets de démonstration : capture réelle, description, valeurs relevées sur le modèle, fichier .tsa. */
-export const DemoProjects: React.FC<{ headingLevel?: 'h2' | 'h3' }> = ({ headingLevel = 'h3' }) => {
+export const DemoProjects: React.FC<{ headingLevel?: 'h2' | 'h3' | 'h4' }> = ({ headingLevel = 'h3' }) => {
   const { language } = useLanguage();
   const fr = language === 'fr';
   const Heading = headingLevel;

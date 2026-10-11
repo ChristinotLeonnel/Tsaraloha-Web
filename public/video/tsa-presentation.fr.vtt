@@ -1,0 +1,30 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.950
+TSA — analyse et calcul de structures.
+
+2
+00:00:04.000 --> 00:00:10.950
+Modélisation 3D : poteaux, poutres, dalles, voiles, semelles et escaliers.
+
+3
+00:00:11.000 --> 00:00:16.950
+Matériaux et rendu : béton coffré, acier peint, galvanisé ; modes texturé, ombré, filaire et léger.
+
+4
+00:00:17.000 --> 00:00:23.950
+Pont à haubans 80 + 180 + 80 m : pylônes en H, 64 haubans, tablier métallique.
+
+5
+00:00:24.000 --> 00:00:31.950
+Calcul OpenSees réel : déformée amplifiée, contraintes normales, efforts dans les haubans.
+
+6
+00:00:32.000 --> 00:00:37.950
+Notes de calcul PDF simplifiée et détaillée, produites à partir des résultats réels.
+
+7
+00:00:38.000 --> 00:00:41.950
+Modéliser, calculer, justifier — avec TSA.
+
