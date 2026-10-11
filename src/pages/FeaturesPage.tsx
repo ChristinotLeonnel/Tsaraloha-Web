@@ -6,6 +6,9 @@ import { Card } from '../components/Card';
 import { Tabs } from '../components/Tabs';
 import { SEOHead } from '../components/SEOHead';
 import { featureCategories } from '../config/featureCategories';
+import { TsaIcon } from '../components/TsaIcon';
+import { ScreenshotFigure } from '../components/ScreenshotFigure';
+import { screenshots } from '../config/screenshots';
 import {
   Search,
 } from 'lucide-react';
@@ -17,10 +20,10 @@ export const FeaturesPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const categories = featureCategories.map(({ id, label, icon: Icon }) => ({
+  const categories = featureCategories.map(({ id, label, icon: Icon, tsa }) => ({
     id,
     label: label[language],
-    icon: <Icon className="w-4 h-4" />,
+    icon: tsa ? <TsaIcon name={tsa} size={16} /> : <Icon className="w-4 h-4" />,
   }));
 
   const filteredFeatures = useMemo(() => {
@@ -73,6 +76,28 @@ export const FeaturesPage: React.FC = () => {
               : 'Explore the full spectrum of structural engineering tools and modules in TSA, labeled with clear real-time development status badges.'}
           </p>
         </div>
+
+        {/* Galerie : captures réelles de TSA, groupées par projet de démonstration */}
+        <section className="mb-12" aria-labelledby="features-gallery">
+          <h2 id="features-gallery" className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+            {language === 'fr' ? 'TSA en images' : 'TSA in pictures'}
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-5">
+            {language === 'fr'
+              ? 'Captures de l’application, représentation filaire analytique. Cliquez pour agrandir.'
+              : 'Application screenshots, analytical wireframe display. Click to enlarge.'}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {screenshots.map((shot) => (
+              <ScreenshotFigure
+                key={shot.id}
+                id={shot.id}
+                gallery={screenshots.map((s) => s.id)}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              />
+            ))}
+          </div>
+        </section>
 
         {/* Filters and Search Bar */}
         <div className="space-y-4 mb-8">

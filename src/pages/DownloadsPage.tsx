@@ -2,6 +2,7 @@ import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { downloadPlatforms, systemRequirements } from '../config/downloads';
 import { Card } from '../components/Card';
+import { DemoProjects } from '../components/DemoProjects';
 import { CodeBlock } from '../components/CodeBlock';
 import { SEOHead } from '../components/SEOHead';
 import { GithubIcon } from '../components/GithubIcon';
@@ -131,6 +132,19 @@ export const DownloadsPage: React.FC = () => {
             );
           })}
         </div>
+
+        {/* Projets d'exemple : fichiers .tsa réels, ouvrables dans TSA */}
+        <section className="mb-16" aria-labelledby="example-projects">
+          <h2 id="example-projects" className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+            {language === 'fr' ? 'Projets d’exemple' : 'Example projects'}
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 max-w-3xl">
+            {language === 'fr'
+              ? 'Trois projets au format natif .tsa, construits avec TSA et vérifiés (connexions, relecture, calcul sous poids propre). Ouvrez-les avec le bouton Ouvrir du ruban (Ctrl+O).'
+              : 'Three projects in the native .tsa format, built with TSA and checked (connections, reload, self-weight analysis). Open them with the Open button of the ribbon (Ctrl+O).'}
+          </p>
+          <DemoProjects />
+        </section>
 
         {/* System Requirements Table */}
         <div className="p-8 rounded-2xl bg-white dark:bg-tsa-surface-card border border-slate-200 dark:border-slate-800 shadow-xl">

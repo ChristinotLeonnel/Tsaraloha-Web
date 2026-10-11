@@ -2,7 +2,8 @@ import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { siteConfig } from '../config/site';
 import { featureItems } from '../config/features';
-import { InteractiveViewport } from '../components/InteractiveViewport';
+import { ScreenshotFigure } from '../components/ScreenshotFigure';
+import { DemoProjects } from '../components/DemoProjects';
 import { EngineeringWorkflow } from '../components/EngineeringWorkflow';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -10,6 +11,7 @@ import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import { GithubIcon } from '../components/GithubIcon';
 import { featureCategory } from '../config/featureCategories';
+import { TsaIcon } from '../components/TsaIcon';
 import {
   Cpu,
   Layers,
@@ -103,18 +105,19 @@ export const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: Interactive 3D Structural Viewport */}
+            {/* Colonne de droite : capture réelle de TSA (pont de démonstration, vue 3D filaire) */}
             <div className="lg:col-span-6 w-full">
               <div className="relative">
-                {/* Glow Backdrop */}
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-tsa-blue-600/30 to-tsa-cyan-400/20 blur-xl opacity-75" />
-                <InteractiveViewport />
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-tsa-blue-600/30 to-tsa-cyan-400/20 blur-xl opacity-75" aria-hidden />
+                <ScreenshotFigure
+                  id="pont-perspective"
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  gallery={['pont-perspective', 'pont-elevation', 'pont-detail-treillis']}
+                  className="relative"
+                  captionClassName="text-center"
+                />
               </div>
-              <p className="mt-2 text-center text-xs text-slate-400 font-mono">
-                {language === 'fr'
-                  ? 'Simulation interactive du portique spatial : déformée {U}, moments fléchissants My et réactions.'
-                  : 'Interactive portal frame simulation: deformed shape {U}, bending moments My and reactions.'}
-              </p>
             </div>
           </div>
         </div>
@@ -188,6 +191,24 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Projets réalisés dans TSA : captures réelles et fichiers .tsa */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="demo-projects">
+        <div className="max-w-3xl mb-10">
+          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-tsa-blue-600 dark:text-tsa-cyan-400">
+            {language === 'fr' ? 'Captures réelles du logiciel' : 'Real software screenshots'}
+          </span>
+          <h2 id="demo-projects" className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            {language === 'fr' ? 'Trois structures modélisées dans TSA' : 'Three structures modeled in TSA'}
+          </h2>
+          <p className="mt-3 text-slate-600 dark:text-slate-400">
+            {language === 'fr'
+              ? 'Un pont, un hangar et un bâtiment, construits uniquement en barres, enregistrés au format .tsa et capturés dans l’application, en représentation filaire analytique.'
+              : 'A bridge, a hangar and a building, made of members only, saved in the .tsa format and captured in the application, in analytical wireframe display.'}
+          </p>
+        </div>
+        <DemoProjects />
+      </section>
+
       {/* Engineering Workflow Interactive Section */}
       <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -232,7 +253,7 @@ export const Home: React.FC = () => {
                       const cat = featureCategory(feat.category);
                       return (
                         <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                          <cat.icon className="w-3.5 h-3.5" aria-hidden />
+                          {cat.tsa ? <TsaIcon name={cat.tsa} size={14} /> : <cat.icon className="w-3.5 h-3.5" aria-hidden />}
                           {cat.label[language]}
                         </span>
                       );

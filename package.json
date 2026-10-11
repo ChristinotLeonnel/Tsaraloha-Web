@@ -9,6 +9,7 @@
     "check:docs": "node scripts/check-docs.mjs",
     "test:docs": "node scripts/test-docs.mjs",
     "audit:visual": "node scripts/visual-audit.mjs",
+    "sync:tsa-assets": "node scripts/sync-tsa-assets.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },

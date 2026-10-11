@@ -7,6 +7,7 @@ import { siteConfig } from '../config/site';
 import { primaryNav, secondaryNav, type NavItem } from '../config/navigation';
 import { BrandLogo } from './BrandLogo';
 import { GithubIcon } from './GithubIcon';
+import { NavIcon } from './NavIcon';
 
 const currentYear = new Date().getFullYear();
 
@@ -40,11 +41,11 @@ export const Footer: React.FC = () => {
 
   const linkClass = 'inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors';
   const internal = (items: NavItem[]) =>
-    items.map(({ href, key, icon: Icon }) => (
-      <li key={href}>
-        <Link to={href} className={linkClass}>
-          <Icon className="w-3.5 h-3.5 shrink-0 text-slate-500" aria-hidden />
-          {t.nav[key]}
+    items.map((item) => (
+      <li key={item.href}>
+        <Link to={item.href} className={linkClass}>
+          <NavIcon item={item} size={14} className="text-slate-500" />
+          {t.nav[item.key]}
         </Link>
       </li>
     ));

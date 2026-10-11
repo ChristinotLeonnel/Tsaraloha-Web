@@ -6,6 +6,7 @@ import { siteConfig } from '../config/site';
 import { primaryNav, secondaryNav, isActivePath } from '../config/navigation';
 import { BrandLogo } from './BrandLogo';
 import { GithubIcon } from './GithubIcon';
+import { NavIcon } from './NavIcon';
 import { Menu, X, Sun, Moon, Laptop, ChevronDown, Download, Languages } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -94,7 +95,8 @@ export const Navbar: React.FC = () => {
 
           {/* Navigation principale (écrans larges) */}
           <nav className="hidden xl:flex items-center gap-0.5" aria-label={fr ? 'Navigation principale' : 'Main navigation'}>
-            {primaryNav.map(({ href, key, icon: Icon }) => {
+            {primaryNav.map((item) => {
+              const { href, key } = item;
               const active = isActivePath(currentPath, href);
               return (
                 <Link
@@ -107,7 +109,7 @@ export const Navbar: React.FC = () => {
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  <Icon className="w-4 h-4 shrink-0" aria-hidden />
+                  <NavIcon item={item} />
                   <span>{t.nav[key]}</span>
                 </Link>
               );
@@ -138,7 +140,9 @@ export const Navbar: React.FC = () => {
                   role="menu"
                   className="absolute right-0 mt-2 w-72 rounded-xl bg-white dark:bg-tsa-surface-card border border-slate-200 dark:border-slate-800 shadow-2xl p-2 z-50"
                 >
-                  {secondaryNav.map(({ href, key, icon: Icon, desc }) => (
+                  {secondaryNav.map((item) => {
+                    const { href, key, desc } = item;
+                    return (
                     <Link
                       key={href}
                       to={href}
@@ -147,13 +151,14 @@ export const Navbar: React.FC = () => {
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-start gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors"
                     >
-                      <Icon className="w-4 h-4 mt-0.5 shrink-0 text-tsa-blue-600 dark:text-tsa-cyan-400" aria-hidden />
+                      <NavIcon item={item} className="mt-0.5 text-tsa-blue-600 dark:text-tsa-cyan-400" />
                       <span>
                         <span className="block text-sm font-semibold text-slate-900 dark:text-white">{t.nav[key]}</span>
                         {desc && <span className="block text-xs text-slate-500 dark:text-slate-400">{desc[language]}</span>}
                       </span>
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -219,7 +224,8 @@ export const Navbar: React.FC = () => {
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-              {primaryNav.map(({ href, key, icon: Icon }) => {
+              {primaryNav.map((item) => {
+                const { href, key } = item;
                 const active = isActivePath(currentPath, href);
                 return (
                   <Link
@@ -232,7 +238,7 @@ export const Navbar: React.FC = () => {
                         : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                     }`}
                   >
-                    <Icon className="w-4 h-4 shrink-0" aria-hidden />
+                    <NavIcon item={item} />
                     {t.nav[key]}
                   </Link>
                 );
@@ -244,17 +250,20 @@ export const Navbar: React.FC = () => {
                 {fr ? 'Autres rubriques' : 'More sections'}
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                {secondaryNav.map(({ href, key, icon: Icon }) => (
+                {secondaryNav.map((item) => {
+                  const { href, key } = item;
+                  return (
                   <Link
                     key={href}
                     to={href}
                     aria-current={isActivePath(currentPath, href) ? 'page' : undefined}
                     className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white"
                   >
-                    <Icon className="w-4 h-4 shrink-0 text-tsa-blue-600 dark:text-tsa-cyan-400" aria-hidden />
+                    <NavIcon item={item} className="text-tsa-blue-600 dark:text-tsa-cyan-400" />
                     {t.nav[key]}
                   </Link>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
