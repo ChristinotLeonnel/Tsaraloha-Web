@@ -38,3 +38,9 @@ Thumbs.db
 
 # Audit visuel (npm run audit:visual)
 audit-out/
+
+# Captures locales pour le montage vidéo
+captures-showcase/
+
+# Fichier master audio uncompressed
+public/video/tsa-soundtrack.wav

@@ -58,22 +58,22 @@ def blend(a, b, t):
 
 
 def caption(frame, title, subtitle, alpha):
-    """Titre en bas à gauche, encadré semi-opaque."""
+    """Titre en bas à gauche, encadré discret semi-opaque pour identifier la séquence sans masquer le modèle."""
     if alpha <= 0:
         return frame
     over = Image.new("RGBA", frame.size, (0, 0, 0, 0))
     d = ImageDraw.Draw(over)
-    ft, fs = font(46, 700), font(28, 450)
+    ft, fs = font(26, 700), font(17, 450)
     tw = d.textlength(title, font=ft)
     sw = d.textlength(subtitle, font=fs) if subtitle else 0
-    w = int(max(tw, sw)) + 64
-    h = 150 if subtitle else 96
-    x, y = 70, H - h - 70
-    d.rounded_rectangle((x, y, x + w, y + h), 18, fill=(8, 14, 26, int(205 * alpha)))
-    d.rectangle((x, y + 18, x + 6, y + h - 18), fill=(56, 189, 248, int(255 * alpha)))
-    d.text((x + 32, y + 22), title, font=ft, fill=(255, 255, 255, int(255 * alpha)))
+    w = int(max(tw, sw)) + 40
+    h = 74 if subtitle else 48
+    x, y = 50, H - h - 50
+    d.rounded_rectangle((x, y, x + w, y + h), 10, fill=(8, 14, 26, int(195 * alpha)))
+    d.rectangle((x, y + 10, x + 4, y + h - 10), fill=(56, 189, 248, int(240 * alpha)))
+    d.text((x + 20, y + 12), title, font=ft, fill=(255, 255, 255, int(255 * alpha)))
     if subtitle:
-        d.text((x + 32, y + 88), subtitle, font=fs, fill=(186, 213, 240, int(255 * alpha)))
+        d.text((x + 20, y + 43), subtitle, font=fs, fill=(186, 213, 240, int(255 * alpha)))
     return Image.alpha_composite(frame.convert("RGBA"), over).convert("RGB")
 
 
@@ -82,17 +82,23 @@ def envelope(i, n, fade=12):
 
 
 class Writer:
-    """H.264 par ffmpeg (paquet imageio-ffmpeg : CRF, yuv420p, faststart pour la lecture web progressive) ; à défaut,
-    OpenCV / Media Foundation (débit non réglable, fichiers beaucoup plus lourds)."""
+    """H.264 par ffmpeg (paquet imageio-ffmpeg : CRF, yuv420p, piste audio AAC, faststart pour la lecture web progressive)."""
 
-    def __init__(self, path, size, crf):
+    def __init__(self, path, size, crf, audio=None):
         self.size = size
+        self.path = path
         try:
             import subprocess
             import imageio_ffmpeg
             cmd = [imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-                   "-s", f"{size[0]}x{size[1]}", "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "slow", "-crf", str(crf),
-                   "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", path]
+                   "-s", f"{size[0]}x{size[1]}", "-r", str(FPS), "-i", "-"]
+            if audio and os.path.exists(audio):
+                cmd += ["-i", audio, "-c:v", "libx264", "-preset", "slow", "-crf", str(crf),
+                        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
+                        "-movflags", "+faststart", "-shortest", path]
+            else:
+                cmd += ["-c:v", "libx264", "-preset", "slow", "-crf", str(crf),
+                        "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", path]
             self.p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
             self.w = None
         except ImportError:
@@ -122,6 +128,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--captures", required=True)
     ap.add_argument("--notes", required=True)
+    ap.add_argument("--audio", default=os.path.join(SITE, "public", "video", "tsa-soundtrack.wav"))
     ap.add_argument("--out", default=os.path.join(SITE, "public", "video"))
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
@@ -257,7 +264,8 @@ def main():
 
     # Écriture : 1080p, 720p (web), affiche, sous-titres
     full, web = os.path.join(a.out, "tsa-presentation-1080p.mp4"), os.path.join(a.out, "tsa-presentation-720p.mp4")
-    w1, w2 = Writer(full, (W, H), 20), Writer(web, (1280, 720), 23)
+    w1 = Writer(full, (W, H), 20, audio=a.audio)
+    w2 = Writer(web, (1280, 720), 23, audio=a.audio)
     for f_ in frames:
         w1.add(f_)
         w2.add(f_)
