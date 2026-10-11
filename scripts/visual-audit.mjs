@@ -21,6 +21,8 @@ const arg = (name, def) => {
   return i > 0 ? process.argv[i + 1] : def;
 };
 const BASE = arg('--base', 'http://localhost:4179').replace(/\/+$/, '');
+// Préfixe des adresses du site (ex. /Tsaraloha-Web sous GitHub Pages), retiré avant de contrôler les liens internes.
+const BASE_PATH = new URL(BASE).pathname.replace(/\/+$/, '');
 const OUT = resolve(arg('--out', 'audit-out'));
 const SIZES = [
   { name: '1920', width: 1920, height: 1080, mobile: false },
@@ -171,7 +173,9 @@ async function main() {
         const failed = mine.filter((e) => e.method === 'Network.loadingFailed' && !e.params.canceled).map((e) => e.params.errorText);
         const http = mine.filter((e) => e.method === 'Network.responseReceived' && e.params.response.status >= 400)
           .map((e) => `${e.params.response.status} ${e.params.response.url}`);
-        const badLinks = probe.links.filter((h) => h.startsWith('/') && !h.startsWith('//')).map((h) => h.split(/[?#]/)[0].replace(/\/+$/, '') || '/')
+        const badLinks = probe.links.filter((h) => h.startsWith('/') && !h.startsWith('//'))
+          .map((h) => (BASE_PATH && (h === BASE_PATH || h.startsWith(`${BASE_PATH}/`)) ? h.slice(BASE_PATH.length) : h))
+          .map((h) => h.split(/[?#]/)[0].replace(/\/+$/, '') || '/')
           .filter((h) => !knownRoutes.has(h) && !/\.\w{2,5}$/.test(h));
         const entry = { page, size: size.name, ...probe, consoleErrors, exceptions, logErrors, failed, http, badLinks: [...new Set(badLinks)] };
         delete entry.links;
@@ -179,7 +183,8 @@ async function main() {
         const issues = [];
         if (consoleErrors.length) issues.push(`console : ${consoleErrors.join(' | ')}`);
         if (exceptions.length) issues.push(`exception : ${exceptions.join(' | ')}`);
-        if (logErrors.length) issues.push(`journal : ${logErrors.join(' | ')}`);
+        const expected404 = page === '/page-inexistante';
+        if (logErrors.length && !expected404) issues.push(`journal : ${logErrors.join(' | ')}`);
         if (http.length && page !== '/page-inexistante') issues.push(`HTTP : ${http.join(' | ')}`);
         if (failed.length) issues.push(`réseau : ${failed.join(' | ')}`);
         if (probe.brokenImages.length) issues.push(`images cassées : ${probe.brokenImages.join(', ')}`);
