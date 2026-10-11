@@ -70,8 +70,8 @@ const text = {
     troubleText: 'Problèmes courants et solutions.',
     issuesTitle: 'Signaler un bug',
     issuesText: 'Ouvrir un ticket sur le dépôt GitHub de TSA.',
-    discussTitle: 'Discussions',
-    discussText: 'Questions et échanges avec la communauté.',
+    discussTitle: 'Poser une question',
+    discussText: 'Question ou suggestion : ouvrir un ticket public sur GitHub.',
     faq: 'Questions fréquentes',
     more: 'En savoir plus',
     procedure: 'Signaler un bug efficacement',
@@ -93,8 +93,8 @@ const text = {
     troubleText: 'Common problems and solutions.',
     issuesTitle: 'Report a bug',
     issuesText: 'Open an issue on the TSA GitHub repository.',
-    discussTitle: 'Discussions',
-    discussText: 'Questions and community exchanges.',
+    discussTitle: 'Ask a question',
+    discussText: 'Question or suggestion: open a public GitHub issue.',
     faq: 'Frequently asked questions',
     more: 'Learn more',
     procedure: 'Reporting a bug effectively',
@@ -121,7 +121,7 @@ export const SupportPage: React.FC = () => {
     { icon: BookOpen, title: t.docsTitle, body: t.docsText, to: '/docs' },
     { icon: HelpCircle, title: t.troubleTitle, body: t.troubleText, to: '/docs/troubleshooting' },
     { icon: Bug, title: t.issuesTitle, body: t.issuesText, href: siteConfig.urls.issues },
-    { icon: MessageSquare, title: t.discussTitle, body: t.discussText, href: siteConfig.urls.discussions },
+    { icon: MessageSquare, title: t.discussTitle, body: t.discussText, href: siteConfig.urls.newIssue },
   ];
 
   return (

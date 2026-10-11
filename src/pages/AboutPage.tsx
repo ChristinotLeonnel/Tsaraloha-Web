@@ -14,19 +14,31 @@ import {
 } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
 
   const [formState, setFormState] = useState({
     name: '',
-    email: '',
     organization: '',
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
 
+  // Site statique, sans serveur : le message est transmis comme ticket GitHub pré-rempli (public), ouvert dans un
+  // nouvel onglet ; rien n'est envoyé tant que la personne ne valide pas le ticket sur GitHub.
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formState.email || !formState.message) return;
+    if (!formState.message.trim()) return;
+    const who = [formState.name.trim(), formState.organization.trim()].filter(Boolean).join(' — ');
+    const title = `[Contact] ${who || (language === 'fr' ? 'Message depuis le site' : 'Message from the website')}`;
+    const body = `${formState.message.trim()}
+
+---
+${who ? `${language === 'fr' ? 'De' : 'From'} : ${who}
+` : ''}${
+      language === 'fr' ? 'Envoyé depuis la page À propos du site TSA.' : 'Sent from the TSA website About page.'
+    }`;
+    const url = `${siteConfig.urls.newIssue}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
   };
 
@@ -106,7 +118,7 @@ export const AboutPage: React.FC = () => {
                   className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800 text-xs font-semibold"
                 >
                   <GithubIcon className="w-4 h-4" />
-                  <span>GitHub Repository</span>
+                  <span>{language === 'fr' ? 'Dépôt GitHub' : 'GitHub repository'}</span>
                 </a>
                 <a
                   href={siteConfig.urls.issues}
@@ -140,17 +152,17 @@ export const AboutPage: React.FC = () => {
                 <div className="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-center space-y-3">
                   <CheckCircle2 className="w-8 h-8 mx-auto text-emerald-500" />
                   <div className="font-bold text-sm">
-                    {language === 'fr' ? 'Message Pris en Compte !' : 'Message Received!'}
+                    {language === 'fr' ? 'Ticket GitHub préparé' : 'GitHub issue prepared'}
                   </div>
                   <p className="text-xs">
                     {language === 'fr'
-                      ? 'Merci pour votre intérêt envers Tsaraloha Structural Analysis. Notre équipe vous répondra dans les meilleurs délais.'
-                      : 'Thank you for your interest in Tsaraloha Structural Analysis. We will respond to your message promptly.'}
+                      ? 'Votre message a été ouvert dans un nouvel onglet GitHub. Vérifiez-le puis cliquez sur « Submit new issue » pour l’envoyer. Si l’onglet ne s’est pas ouvert, autorisez les fenêtres de ce site.'
+                      : 'Your message opened in a new GitHub tab. Review it, then click “Submit new issue” to send it. If no tab opened, allow pop-ups for this site.'}
                   </p>
                   <button
                     onClick={() => {
                       setSubmitted(false);
-                      setFormState({ name: '', email: '', organization: '', message: '' });
+                      setFormState({ name: '', organization: '', message: '' });
                     }}
                     className="text-xs underline font-medium text-emerald-600 dark:text-emerald-400"
                   >
@@ -160,12 +172,12 @@ export const AboutPage: React.FC = () => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
                   <div>
-                    <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                      {language === 'fr' ? 'Nom complet' : 'Full Name'} *
+                    <label htmlFor="contact-name" className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      {language === 'fr' ? 'Nom' : 'Name'}
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
-                      required
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       className="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-tsa-blue-500"
@@ -174,24 +186,11 @@ export const AboutPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                      {language === 'fr' ? 'Adresse Email' : 'Email Address'} *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={formState.email}
-                      onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-tsa-blue-500"
-                      placeholder="engineer@consulting.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label htmlFor="contact-org" className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       {language === 'fr' ? 'Organisme / Entreprise / Université' : 'Organization / University'}
                     </label>
                     <input
+                      id="contact-org"
                       type="text"
                       value={formState.organization}
                       onChange={(e) => setFormState({ ...formState, organization: e.target.value })}
@@ -201,10 +200,11 @@ export const AboutPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label htmlFor="contact-message" className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       {language === 'fr' ? 'Message' : 'Message'} *
                     </label>
                     <textarea
+                      id="contact-message"
                       required
                       rows={4}
                       value={formState.message}
@@ -214,6 +214,12 @@ export const AboutPage: React.FC = () => {
                     />
                   </div>
 
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    {language === 'fr'
+                      ? 'Le message est transmis sous forme de ticket public sur GitHub (compte GitHub requis). N’y mettez aucune information confidentielle.'
+                      : 'Your message is sent as a public GitHub issue (GitHub account required). Do not include confidential information.'}
+                  </p>
+
                   <Button
                     type="submit"
                     variant="primary"
@@ -221,7 +227,7 @@ export const AboutPage: React.FC = () => {
                     className="w-full"
                     icon={<Send className="w-4 h-4" />}
                   >
-                    {language === 'fr' ? 'Envoyer le Message' : 'Submit Inquiry'}
+                    {language === 'fr' ? 'Préparer le ticket GitHub' : 'Prepare the GitHub issue'}
                   </Button>
                 </form>
               )}

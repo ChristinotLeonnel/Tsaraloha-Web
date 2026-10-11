@@ -118,6 +118,7 @@ export const Link: React.FC<LinkProps> = ({
       href={href}
       onClick={handleClick}
       className={`${className} ${isActive ? activeClassName : ''}`}
+      {...(isExternal && !to.startsWith('mailto:') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       {...props}
     >
       {children}

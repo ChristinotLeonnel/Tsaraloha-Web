@@ -1,21 +1,28 @@
 import { DownloadPlatform } from '../types';
 
-export const systemRequirements = {
+// Configuration requise, traduite (fr / en).
+type Localized = { fr: string; en: string };
+type Requirements = Record<'os' | 'cpu' | 'ram' | 'gpu' | 'disk' | 'display', Localized>;
+
+export const systemRequirements: { minimum: Requirements; recommended: Requirements } = {
   minimum: {
-    os: 'Windows 10 (64-bit)',
-    cpu: 'Intel Core i5 (4 cores, 2.5 GHz) or AMD Ryzen 5',
-    ram: '8 GB DDR4',
-    gpu: 'OpenGL 3.3 compatible graphics card with 2 GB VRAM',
-    disk: '5 GB free SSD storage',
-    display: '1920 × 1080 resolution',
+    os: { fr: 'Windows 10 (64 bits)', en: 'Windows 10 (64-bit)' },
+    cpu: { fr: 'Intel Core i5 (4 cœurs, 2,5 GHz) ou AMD Ryzen 5', en: 'Intel Core i5 (4 cores, 2.5 GHz) or AMD Ryzen 5' },
+    ram: { fr: '8 Go DDR4', en: '8 GB DDR4' },
+    gpu: { fr: 'Carte graphique compatible OpenGL 3.3, 2 Go de mémoire vidéo', en: 'OpenGL 3.3 compatible graphics card with 2 GB VRAM' },
+    disk: { fr: '5 Go libres sur SSD', en: '5 GB free SSD storage' },
+    display: { fr: 'Résolution 1920 × 1080', en: '1920 × 1080 resolution' },
   },
   recommended: {
-    os: 'Windows 11 (64-bit)',
-    cpu: 'Intel Core i7/i9 (8+ cores) or AMD Ryzen 7/9',
-    ram: '16 to 32 GB DDR4/DDR5',
-    gpu: 'Dedicated NVIDIA GeForce / Quadro or AMD Radeon with 6+ GB VRAM (OpenGL 4.5+)',
-    disk: '15 GB free NVMe SSD storage',
-    display: '2560 × 1440 or 4K with multi-monitor support',
+    os: { fr: 'Windows 11 (64 bits)', en: 'Windows 11 (64-bit)' },
+    cpu: { fr: 'Intel Core i7/i9 (8 cœurs ou plus) ou AMD Ryzen 7/9', en: 'Intel Core i7/i9 (8+ cores) or AMD Ryzen 7/9' },
+    ram: { fr: '16 à 32 Go DDR4/DDR5', en: '16 to 32 GB DDR4/DDR5' },
+    gpu: {
+      fr: 'Carte NVIDIA GeForce / Quadro ou AMD Radeon dédiée, 6 Go de mémoire vidéo ou plus (OpenGL 4.5+)',
+      en: 'Dedicated NVIDIA GeForce / Quadro or AMD Radeon with 6+ GB VRAM (OpenGL 4.5+)',
+    },
+    disk: { fr: '15 Go libres sur SSD NVMe', en: '15 GB free NVMe SSD storage' },
+    display: { fr: '2560 × 1440 ou 4K, plusieurs écrans possibles', en: '2560 × 1440 or 4K with multi-monitor support' },
   },
 };
 

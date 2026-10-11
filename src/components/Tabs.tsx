@@ -21,12 +21,14 @@ export const Tabs: React.FC<TabsProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-tsa-surface-dark border border-slate-200 dark:border-slate-800 rounded-xl overflow-x-auto no-scrollbar ${className}`}>
+    <div className={`flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-tsa-surface-dark border border-slate-200 dark:border-slate-800 rounded-xl flex-wrap ${className}`}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
           <button
             key={tab.id}
+            type="button"
+            aria-pressed={isActive}
             onClick={() => onChange(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg whitespace-nowrap cursor-pointer transition-all duration-200 ease-out active:scale-[0.98] ${
               isActive
@@ -34,7 +36,7 @@ export const Tabs: React.FC<TabsProps> = ({
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
             }`}
           >
-            {tab.icon && <span className="shrink-0">{tab.icon}</span>}
+            {tab.icon && <span className="shrink-0" aria-hidden>{tab.icon}</span>}
             <span>{tab.label}</span>
             {tab.count !== undefined && (
               <span

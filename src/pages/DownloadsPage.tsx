@@ -1,10 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { downloadPlatforms, systemRequirements } from '../config/downloads';
-import { siteConfig } from '../config/site';
 import { Card } from '../components/Card';
-import { Button } from '../components/Button';
-import { Badge } from '../components/Badge';
 import { CodeBlock } from '../components/CodeBlock';
 import { SEOHead } from '../components/SEOHead';
 import { GithubIcon } from '../components/GithubIcon';
@@ -56,7 +53,7 @@ export const DownloadsPage: React.FC = () => {
             return (
               <Card
                 key={platform.id}
-                className="p-8 flex flex-col justify-between"
+                className="p-6 sm:p-8 flex flex-col justify-between min-w-0"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
@@ -163,33 +160,33 @@ export const DownloadsPage: React.FC = () => {
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80 text-slate-700 dark:text-slate-300">
                 <tr>
                   <td className="py-3 pr-4 font-semibold">{language === 'fr' ? 'Système d\'exploitation' : 'Operating System'}</td>
-                  <td className="py-3 px-4">{systemRequirements.minimum.os}</td>
-                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.os}</td>
+                  <td className="py-3 px-4">{systemRequirements.minimum.os[language]}</td>
+                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.os[language]}</td>
                 </tr>
                 <tr>
                   <td className="py-3 pr-4 font-semibold">{language === 'fr' ? 'Processeur (CPU)' : 'Processor (CPU)'}</td>
-                  <td className="py-3 px-4">{systemRequirements.minimum.cpu}</td>
-                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.cpu}</td>
+                  <td className="py-3 px-4">{systemRequirements.minimum.cpu[language]}</td>
+                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.cpu[language]}</td>
                 </tr>
                 <tr>
                   <td className="py-3 pr-4 font-semibold">{language === 'fr' ? 'Mémoire Vive (RAM)' : 'System Memory (RAM)'}</td>
-                  <td className="py-3 px-4">{systemRequirements.minimum.ram}</td>
-                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.ram}</td>
+                  <td className="py-3 px-4">{systemRequirements.minimum.ram[language]}</td>
+                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.ram[language]}</td>
                 </tr>
                 <tr>
                   <td className="py-3 pr-4 font-semibold">{language === 'fr' ? 'Carte Graphique (GPU)' : 'Graphics (GPU)'}</td>
-                  <td className="py-3 px-4">{systemRequirements.minimum.gpu}</td>
-                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.gpu}</td>
+                  <td className="py-3 px-4">{systemRequirements.minimum.gpu[language]}</td>
+                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.gpu[language]}</td>
                 </tr>
                 <tr>
                   <td className="py-3 pr-4 font-semibold">{language === 'fr' ? 'Stockage' : 'Disk Storage'}</td>
-                  <td className="py-3 px-4">{systemRequirements.minimum.disk}</td>
-                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.disk}</td>
+                  <td className="py-3 px-4">{systemRequirements.minimum.disk[language]}</td>
+                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.disk[language]}</td>
                 </tr>
                 <tr>
                   <td className="py-3 pr-4 font-semibold">{language === 'fr' ? 'Affichage' : 'Display'}</td>
-                  <td className="py-3 px-4">{systemRequirements.minimum.display}</td>
-                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.display}</td>
+                  <td className="py-3 px-4">{systemRequirements.minimum.display[language]}</td>
+                  <td className="py-3 pl-4 font-medium">{systemRequirements.recommended.display[language]}</td>
                 </tr>
               </tbody>
             </table>

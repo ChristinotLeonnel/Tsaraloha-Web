@@ -12,11 +12,12 @@ export const siteConfig = {
     softwareGithub: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis',
     releases: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis/releases',
     issues: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis/issues',
-    discussions: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis/discussions',
+    newIssue: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis/issues/new',
     docs: '/docs',
     opensees: 'https://opensees.berkeley.edu/',
     occt: 'https://dev.opencascade.org/',
     qt: 'https://www.qt.io/',
+    gmsh: 'https://gmsh.info/',
   },
   techStack: {
     language: 'C++20',

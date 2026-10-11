@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { roadmapItems } from '../config/roadmap';
 import { Card } from '../components/Card';
-import { Badge } from '../components/Badge';
 import { Tabs } from '../components/Tabs';
 import { SEOHead } from '../components/SEOHead';
 import {

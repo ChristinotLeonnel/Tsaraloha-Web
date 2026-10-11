@@ -5,12 +5,8 @@ import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import {
   Layers,
-  Box,
-  Share2,
-  FileCheck,
   Grid,
   Compass,
-  ArrowRight,
   ShieldAlert,
 } from 'lucide-react';
 

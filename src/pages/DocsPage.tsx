@@ -16,13 +16,38 @@ import {
   Tag,
   Languages,
   FileQuestion,
+  Rocket,
+  Boxes,
+  ArrowDownToLine,
+  Grid3X3,
+  Activity,
+  ChartColumn,
+  Building2,
+  LifeBuoy,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Link, useRouter } from '../router/RouterContext';
 import { SEOHead } from '../components/SEOHead';
 import { siteConfig } from '../config/site';
 import { docCategories, categoryById } from '../docs/categories';
 import { findPage, pagesOfCategory, neighbours } from '../docs/catalog';
+
+// Icône de chaque catégorie (index de la documentation, menu latéral).
+const categoryIcons: Record<string, LucideIcon> = {
+  'getting-started': Rocket,
+  modeling: Boxes,
+  loading: ArrowDownToLine,
+  mesh: Grid3X3,
+  analysis: Activity,
+  results: ChartColumn,
+  bim: Building2,
+  troubleshooting: LifeBuoy,
+};
+const CategoryIcon: React.FC<{ id: string; className?: string }> = ({ id, className }) => {
+  const Icon = categoryIcons[id] ?? BookOpen;
+  return <Icon className={className} aria-hidden />;
+};
 import { searchDocs } from '../docs/search';
 import { Markdown, extractToc } from '../docs/Markdown';
 import { documentedVersion, requestedVersion } from '../docs/versions';
@@ -231,8 +256,9 @@ const Sidebar: React.FC<{ language: DocLanguage; currentPath: string; onNavigate
           <Link
             to={`/docs/${cat.id}`}
             onClick={onNavigate}
-            className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 mb-1.5 hover:text-slate-700 dark:hover:text-slate-300"
+            className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 px-2 mb-1.5 hover:text-slate-700 dark:hover:text-slate-200"
           >
+            <CategoryIcon id={cat.id} className="w-3.5 h-3.5" />
             {cat.title[language]}
           </Link>
           <ul className="space-y-0.5">
@@ -305,12 +331,20 @@ const DocsHome: React.FC<{ language: DocLanguage }> = ({ language }) => {
             <Link
               key={cat.id}
               to={`/docs/${cat.id}`}
-              className="block p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-tsa-surface-card hover:border-tsa-blue-500 transition-colors"
+              className="group flex gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-tsa-surface-card hover:border-tsa-blue-500 dark:hover:border-tsa-cyan-400 hover:-translate-y-0.5 transition-all"
             >
-              <span className="block font-bold text-slate-900 dark:text-white">{cat.title[language]}</span>
-              <span className="block mt-1 text-sm text-slate-600 dark:text-slate-400">{cat.description[language]}</span>
-              <span className="block mt-2 text-xs text-slate-400">
-                {count} {t.pages}
+              <span className="shrink-0 w-10 h-10 rounded-xl bg-tsa-blue-500/10 text-tsa-blue-600 dark:text-tsa-cyan-400 flex items-center justify-center">
+                <CategoryIcon id={cat.id} className="w-5 h-5" />
+              </span>
+              <span className="min-w-0">
+                <span className="flex items-center gap-1 font-bold text-slate-900 dark:text-white">
+                  {cat.title[language]}
+                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" aria-hidden />
+                </span>
+                <span className="block mt-1 text-sm text-slate-600 dark:text-slate-400">{cat.description[language]}</span>
+                <span className="block mt-2 text-xs text-slate-500 dark:text-slate-400">
+                  {count} {t.pages}
+                </span>
               </span>
             </Link>
           );
