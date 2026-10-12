@@ -53,6 +53,26 @@ export const roadmapItems: RoadmapItem[] = [
     quarter: 'Q4 2026',
     tags: ['Meshing', 'Gmsh', 'Visualization'],
   },
+  {
+    id: 'road-shell-analysis',
+    titleEn: 'Slab & Wall Shell Analysis',
+    titleFr: 'Calcul des Dalles & Voiles en Coques',
+    descriptionEn: 'Slabs and walls analysed as OpenSees shells with openings, line supports and surface loads; linear static and modal; validated against plate and beam theory.',
+    descriptionFr: 'Dalles et voiles calculés en coques OpenSees avec ouvertures, appuis linéiques et charges surfaciques ; statique linéaire et modal ; validés par la théorie des plaques et des poutres.',
+    status: 'completed',
+    quarter: 'Q4 2026',
+    tags: ['Shells', 'OpenSees', 'Validation'],
+  },
+  {
+    id: 'road-multidoc',
+    titleEn: 'Multi-Project Workspace & Result Display',
+    titleFr: 'Espace Multi-Projets & Affichage des Résultats',
+    descriptionEn: 'Independent project tabs, copy and paste between projects, separate display scales and saved display profiles.',
+    descriptionFr: 'Onglets de projets indépendants, copier-coller entre projets, échelles d\'affichage séparées et profils d\'affichage enregistrables.',
+    status: 'completed',
+    quarter: 'Q4 2026',
+    tags: ['Workspace', 'Clipboard', 'Display'],
+  },
 
   // --- In Development ---
   {
