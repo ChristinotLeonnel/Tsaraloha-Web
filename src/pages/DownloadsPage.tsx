@@ -5,6 +5,7 @@ import { Card } from '../components/Card';
 import { DemoProjects } from '../components/DemoProjects';
 import { ShowcaseProjects } from '../components/ShowcaseProjects';
 import { SEOHead } from '../components/SEOHead';
+import { GithubIcon } from '../components/GithubIcon';
 import { distribution, latestStable, products, releasesOf } from '../config/downloads';
 import { ArrowRight, Download } from 'lucide-react';
 
@@ -63,6 +64,15 @@ export const DownloadsPage: React.FC = () => {
                     {stable ? <Download className="w-4 h-4" aria-hidden="true" /> : <ArrowRight className="w-4 h-4" aria-hidden="true" />}
                     {fr ? `Page de téléchargement de ${product.name}` : `${product.name} download page`}
                   </Link>
+                  <a
+                    href={`https://github.com/${product.sourceRepo}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"
+                  >
+                    <GithubIcon className="w-4 h-4" />
+                    {fr ? 'Code source (MIT)' : 'Source code (MIT)'}
+                  </a>
                 </div>
               </Card>
             );

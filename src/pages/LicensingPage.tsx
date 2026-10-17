@@ -112,19 +112,19 @@ export const LicensingPage: React.FC = () => {
 
           <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
             {language === 'fr'
-              ? 'Tsaraloha Structural Analysis est actuellement en phase de développement actif par Christinot Leonnel Tsaraloha. Le modèle de distribution prévoit une édition Communautaire ouverte pour l\'apprentissage et la recherche, et des licences professionnelles pour les usages commerciaux en ingénierie de production.'
-              : 'Tsaraloha Structural Analysis is currently in active pre-release development by Christinot Leonnel Tsaraloha. The release strategy encompasses an open Community edition for academic exploration, alongside licensed Professional editions for certified production design offices.'}
+              ? 'Le code de TSA et de TSALab, développés par Christinot Leonnel Tsaraloha, est publié sous licence MIT dans des dépôts publics. Les versions distribuées contiennent le mailleur Gmsh, sous licence GNU GPL : chaque version est donc distribuée, dans son ensemble, selon les termes de la GPL, avec son code source correspondant.'
+              : 'TSA and TSALab code, developed by Christinot Leonnel Tsaraloha, is published under the MIT license in public repositories. Distributed builds include the Gmsh mesher, under the GNU GPL: each build is therefore distributed, as a whole, under the terms of the GPL, with its corresponding source code.'}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
               <span className="font-bold text-slate-900 dark:text-white block mb-1">
-                {language === 'fr' ? 'Usage Académique' : 'Academic & Education'}
+                {language === 'fr' ? 'Licence MIT' : 'MIT License'}
               </span>
               <p className="text-slate-500 dark:text-slate-400">
                 {language === 'fr'
-                  ? 'Libre d\'utilisation pour l\'enseignement, la recherche et les projets d\'études.'
-                  : 'Free access for students, researchers, and structural mechanics courses.'}
+                  ? 'Utilisation, modification et redistribution libres du code de TSA, avec la notice de licence (LICENSE.txt). OpenSees, livré, reste limité aux usages éducatifs, de recherche et non lucratifs sans accord de l\'Université de Californie.'
+                  : 'Free use, modification and redistribution of TSA code, with its license notice (LICENSE.txt). The bundled OpenSees remains limited to educational, research and non-profit use without an agreement with the University of California.'}
               </p>
             </div>
 
@@ -134,8 +134,8 @@ export const LicensingPage: React.FC = () => {
               </span>
               <p className="text-slate-500 dark:text-slate-400">
                 {language === 'fr'
-                  ? 'Les binaires doivent conserver les mentions légales et attributions des bibliothèques tierces.'
-                  : 'Official binaries retain all third-party notices, disclaimers, and copyrights.'}
+                  ? 'Les versions officielles contiennent les licences de chaque composant (dossier licenses) et, pour Gmsh, l\'adresse du code source correspondant (licenses/Gmsh/SOURCE.txt).'
+                  : 'Official builds contain each component\'s license (licenses folder) and, for Gmsh, where to get the corresponding source (licenses/Gmsh/SOURCE.txt).'}
               </p>
             </div>
 

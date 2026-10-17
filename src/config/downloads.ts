@@ -43,7 +43,7 @@ export interface Product {
   id: ProductId;
   name: string;
   fullName: string;
-  /** Dépôt du code source (privé : jamais lié depuis le site). */
+  /** Dépôt public du code source (MIT ; exigé par la GPL de Gmsh, livré avec le logiciel). */
   sourceRepo: string;
   /** Dépôt public de diffusion : GitHub Releases (installateur, archive, SHA256SUMS.txt) et tickets. */
   releaseRepo: string;
@@ -79,8 +79,8 @@ export const distribution = {
     },
   } as Record<'installer' | 'portable-zip', Localized>,
   bundled: {
-    fr: 'Qt, OpenCASCADE et le runtime Microsoft Visual C++ sont livrés dans le dossier, ainsi qu’OpenSees si le fichier MANIFEST.json de l’archive l’indique : rien d’autre à installer',
-    en: 'Qt, OpenCASCADE and the Microsoft Visual C++ runtime ship in the folder, plus OpenSees when the archive’s MANIFEST.json says so: nothing else to install',
+    fr: 'Qt, OpenCASCADE, le mailleur Gmsh et le runtime Microsoft Visual C++ sont livrés, ainsi qu’OpenSees si le fichier MANIFEST.json l’indique : rien d’autre à installer',
+    en: 'Qt, OpenCASCADE, the Gmsh mesher and the Microsoft Visual C++ runtime are bundled, plus OpenSees when MANIFEST.json says so: nothing else to install',
   } as Localized,
   graphics: {
     fr: 'Carte graphique avec un pilote OpenGL à jour (vue 3D OpenCASCADE)',
