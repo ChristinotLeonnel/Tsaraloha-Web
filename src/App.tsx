@@ -15,6 +15,7 @@ import { DocsPage } from './pages/DocsPage';
 import { PricingPage } from './pages/PricingPage';
 import { LicensingPage } from './pages/LicensingPage';
 import { DownloadsPage } from './pages/DownloadsPage';
+import { ProductDownloadsPage } from './pages/ProductDownloadsPage';
 import { RoadmapPage } from './pages/RoadmapPage';
 import { ChangelogPage } from './pages/ChangelogPage';
 import { AboutPage } from './pages/AboutPage';
@@ -48,6 +49,10 @@ const AppContent: React.FC = () => {
         return <LicensingPage />;
       case '/downloads':
         return <DownloadsPage />;
+      case '/downloads/tsa':
+        return <ProductDownloadsPage productId="tsa" />;
+      case '/downloads/tsalab':
+        return <ProductDownloadsPage productId="tsalab" />;
       case '/roadmap':
         return <RoadmapPage />;
       case '/changelog':

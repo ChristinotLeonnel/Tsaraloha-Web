@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/check-docs.mjs && tsc -b && vite build && node scripts/prerender-routes.mjs",
+    "build": "node scripts/fetch-releases.mjs && node scripts/check-docs.mjs && tsc -b && vite build && node scripts/prerender-routes.mjs",
     "check:docs": "node scripts/check-docs.mjs",
+    "fetch:releases": "node scripts/fetch-releases.mjs",
     "test:docs": "node scripts/test-docs.mjs",
+    "test:releases": "node scripts/test-releases.mjs",
     "audit:visual": "node scripts/visual-audit.mjs",
     "sync:tsa-assets": "node scripts/sync-tsa-assets.mjs",
     "lint": "oxlint",

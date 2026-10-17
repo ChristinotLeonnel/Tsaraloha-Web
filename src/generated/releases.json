@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-10-17T09:30:32.906Z",
+  "products": {
+    "tsa": {
+      "repo": "ChristinotLeonnel/TSA-Releases",
+      "checkedAt": "2026-10-17T09:30:32.906Z",
+      "stale": false,
+      "releases": []
+    },
+    "tsalab": {
+      "repo": "ChristinotLeonnel/TSALab-Releases",
+      "checkedAt": "2026-10-17T09:30:32.906Z",
+      "stale": false,
+      "releases": []
+    }
+  }
+}
