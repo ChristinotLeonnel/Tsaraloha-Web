@@ -8,10 +8,15 @@ import {
   distribution,
   formatBytes,
   latestStable,
+  osOrder,
+  platforms,
   productById,
   releasesOf,
+  type AssetOs,
+  type Product,
   type ProductId,
   type Release,
+  type ReleaseAsset,
   type ReleaseChannel,
 } from '../config/downloads';
 import { AlertTriangle, CheckCircle2, Copy, Download, Info, ShieldCheck } from 'lucide-react';
@@ -59,53 +64,80 @@ const Checksum: React.FC<{ value: string }> = ({ value }) => {
   );
 };
 
+const downloadLabel = (asset: ReleaseAsset, version: string, language: 'fr' | 'en') => {
+  const size = formatBytes(asset.size, language);
+  const fr = language === 'fr';
+  switch (asset.format) {
+    case 'installer':
+      return fr ? `Télécharger l’installateur ${version} (${size})` : `Download installer ${version} (${size})`;
+    case 'portable-zip':
+      return fr ? `Télécharger le ZIP portable ${version} (${size})` : `Download portable ZIP ${version} (${size})`;
+    case 'appimage':
+      return fr ? `Télécharger l’AppImage ${version} (${size})` : `Download AppImage ${version} (${size})`;
+    case 'dmg':
+      return fr ? `Télécharger le DMG ${version} (${size})` : `Download DMG ${version} (${size})`;
+  }
+};
+
+const AssetBlock: React.FC<{ asset: ReleaseAsset; version: string; primary: boolean }> = ({ asset, version, primary }) => {
+  const { language } = useLanguage();
+  const fr = language === 'fr';
+  return (
+    <div className="mb-6 last:mb-0">
+      <dl className="grid grid-cols-1 sm:grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm mb-4">
+        <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Fichier' : 'File'}</dt>
+        <dd className="font-mono break-all">{asset.name}</dd>
+        <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Système' : 'System'}</dt>
+        <dd>{platforms[asset.os].system[language]}</dd>
+        <dt className="font-semibold text-slate-600 dark:text-slate-400">Format</dt>
+        <dd>{distribution.formats[asset.format][language]}</dd>
+        <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Taille' : 'Size'}</dt>
+        <dd>{formatBytes(asset.size, language)}</dd>
+        <dt className="font-semibold text-slate-600 dark:text-slate-400">SHA-256</dt>
+        <dd className="min-w-0"><Checksum value={asset.sha256} /></dd>
+      </dl>
+      <a
+        href={asset.url}
+        className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tsa-blue-500 ${
+          primary ? 'bg-tsa-blue-600 hover:bg-tsa-blue-700 text-white' : 'border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
+        }`}
+      >
+        <Download className="w-4 h-4" aria-hidden="true" />
+        {downloadLabel(asset, version, language)}
+      </a>
+    </div>
+  );
+};
+
+/** Une version : fichiers regroupés par système ; un système sans fichier est signalé « en préparation ». */
 const ReleaseCard: React.FC<{ release: Release; primary: boolean }> = ({ release, primary }) => {
   const { language } = useLanguage();
   const fr = language === 'fr';
   return (
     <Card className="p-6 sm:p-8 min-w-0">
       <div className="flex flex-wrap items-center gap-3 mb-4">
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-          {release.title}
-        </h3>
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white">{release.title}</h3>
         <ChannelBadge channel={release.channel} />
         <span className="text-sm text-slate-500">
           {fr ? 'Publiée le ' : 'Published '}
           <time dateTime={release.publishedAt}>{formatDate(release.publishedAt, language)}</time>
         </span>
       </div>
-      {release.assets.map((asset, index) => (
-        <div key={asset.name} className="mb-6 last:mb-0">
-          <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-2">
-            {asset.format === 'installer' ? (fr ? 'Installateur (recommandé)' : 'Installer (recommended)') : fr ? 'Version portable' : 'Portable version'}
-          </h4>
-          <dl className="grid grid-cols-1 sm:grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm mb-4">
-            <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Fichier' : 'File'}</dt>
-            <dd className="font-mono break-all">{asset.name}</dd>
-            <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Système' : 'System'}</dt>
-            <dd>{distribution.os[language]}</dd>
-            <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Format' : 'Format'}</dt>
-            <dd>{distribution.formats[asset.format][language]}</dd>
-            <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Taille' : 'Size'}</dt>
-            <dd>{formatBytes(asset.size, language)}</dd>
-            <dt className="font-semibold text-slate-600 dark:text-slate-400">SHA-256</dt>
-            <dd className="min-w-0"><Checksum value={asset.sha256} /></dd>
-          </dl>
-          <a
-            href={asset.url}
-            className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tsa-blue-500 ${
-              primary && index === 0
-                ? 'bg-tsa-blue-600 hover:bg-tsa-blue-700 text-white'
-                : 'border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
-            }`}
-          >
-            <Download className="w-4 h-4" aria-hidden="true" />
-            {asset.format === 'installer'
-              ? fr ? `Télécharger l’installateur ${release.version} (${formatBytes(asset.size, language)})` : `Download installer ${release.version} (${formatBytes(asset.size, language)})`
-              : fr ? `Télécharger le ZIP portable ${release.version} (${formatBytes(asset.size, language)})` : `Download portable ZIP ${release.version} (${formatBytes(asset.size, language)})`}
-          </a>
-        </div>
-      ))}
+      {osOrder.map((os) => {
+        const assets = release.assets.filter((a) => a.os === os);
+        return (
+          <section key={os} className="mt-6 first-of-type:mt-0" aria-label={platforms[os].label}>
+            <h4 className="text-base font-bold text-slate-900 dark:text-white mb-3">{platforms[os].label}</h4>
+            {assets.length ? (
+              assets.map((asset) => (
+                <AssetBlock key={asset.name} asset={asset} version={release.version} primary={primary && asset === release.assets[0]} />
+              ))
+            ) : (
+              <p className="text-sm text-slate-500">{platforms[os].label} : {distribution.inPreparation[language]}.</p>
+            )}
+          </section>
+        );
+      })}
       {release.notes.trim() && (
         <details className="mt-6">
           <summary className="cursor-pointer text-sm font-semibold text-tsa-blue-700 dark:text-tsa-cyan-400">
@@ -118,6 +150,46 @@ const ReleaseCard: React.FC<{ release: Release; primary: boolean }> = ({ release
   );
 };
 
+/** Vérification et installation pour un système. */
+const InstallBlock: React.FC<{ os: AssetOs; product: Product; file: string }> = ({ os, product, file }) => {
+  const { language } = useLanguage();
+  const fr = language === 'fr';
+  const p = platforms[os];
+  const checksum = p.checksum(file);
+  return (
+    <section className="mt-6" aria-label={p.label}>
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">{p.label}</h3>
+      <p className="flex gap-2 p-4 mb-4 rounded-lg border border-slate-200 dark:border-slate-800 text-sm text-slate-700 dark:text-slate-300">
+        <ShieldCheck className="w-5 h-5 shrink-0 text-tsa-blue-600 dark:text-tsa-cyan-400" aria-hidden="true" />
+        {p.unsigned[language]}
+      </p>
+      <p className="text-sm text-slate-700 dark:text-slate-300 mb-2">
+        {fr
+          ? 'Calculez l’empreinte du fichier téléchargé et comparez-la, caractère par caractère, à celle affichée sur cette page ; si elles diffèrent, supprimez le fichier :'
+          : 'Compute the checksum of the downloaded file and compare it, character by character, with the one shown on this page; if they differ, delete the file:'}
+      </p>
+      <CodeBlock code={checksum.code} language={os === 'windows' ? 'powershell' : 'bash'} filename={checksum.shell} />
+      <ul className="list-disc pl-6 space-y-2 text-sm text-slate-700 dark:text-slate-300 mt-4">
+        <li>{p.install[language]}</li>
+        {os === 'windows' && (
+          <>
+            <li>
+              {fr
+                ? `Mise à jour : lancez l’installateur de la nouvelle version, qui remplace l’ancienne. Vos réglages (raccourcis, modules, journaux) sont dans ${product.dataDir} et ne sont jamais écrasés ; vos projets restent là où vous les avez enregistrés.`
+                : `Update: run the new version’s installer, which replaces the old one. Your settings (shortcuts, modules, logs) live in ${product.dataDir} and are never overwritten; your projects stay where you saved them.`}
+            </li>
+            <li>
+              {fr
+                ? `Désinstallation : Paramètres > Applications > ${product.name} > Désinstaller (ou supprimez le dossier de la version portable). Pour effacer aussi vos réglages, supprimez ${product.dataDir}.`
+                : `Uninstall: Settings > Apps > ${product.name} > Uninstall (or delete the portable folder). To erase your settings too, delete ${product.dataDir}.`}
+            </li>
+          </>
+        )}
+      </ul>
+    </section>
+  );
+};
+
 export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ productId }) => {
   const { language } = useLanguage();
   const fr = language === 'fr';
@@ -125,7 +197,11 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
   const info = releasesOf(productId);
   const stable = latestStable(productId);
   const others = info.releases.filter((r) => r !== stable);
-  const exampleFile = stable?.assets[0]?.name ?? `${product.name}-<version>-windows-x64-setup.exe`;
+  // Instructions des systèmes réellement publiés (Windows tant qu'aucune version n'existe).
+  const published = osOrder.filter((os) => info.releases.some((r) => r.assets.some((a) => a.os === os)));
+  const shownOs = published.length ? published : (['windows'] as AssetOs[]);
+  const fileFor = (os: AssetOs) =>
+    info.releases.flatMap((r) => r.assets).find((a) => a.os === os)?.name ?? `${product.name}-<version>-windows-x64-setup.exe`;
 
   return (
     <div className="w-full py-12 lg:py-16">
@@ -133,8 +209,8 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
         title={fr ? `Télécharger ${product.name}` : `Download ${product.name}`}
         description={
           fr
-            ? `Versions officielles de ${product.fullName} pour Windows x64 : archive portable, empreinte SHA-256, notes de publication.`
-            : `Official ${product.fullName} builds for Windows x64: portable archive, SHA-256 checksum, release notes.`
+            ? `Versions officielles de ${product.fullName} : installateur Windows, empreintes SHA-256, notes de publication ; Linux et macOS en préparation.`
+            : `Official ${product.fullName} builds: Windows installer, SHA-256 checksums, release notes; Linux and macOS in preparation.`
         }
       />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -175,8 +251,8 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
                       ? `Aucune version stable de ${product.name} n’est publiée. Les préversions ci-dessous servent aux essais et peuvent contenir des défauts.`
                       : `No stable ${product.name} release is published. The pre-releases below are for testing and may contain defects.`
                     : fr
-                      ? `Aucune version de ${product.name} n’est encore publiée. Cette page proposera l’installateur et la version portable, en téléchargement direct, dès la première publication.`
-                      : `No ${product.name} release has been published yet. This page will offer the installer and the portable version, as direct downloads, as soon as the first release is out.`}
+                      ? `Aucune version de ${product.name} n’est encore publiée. Cette page proposera les fichiers en téléchargement direct dès la première publication : Windows d’abord, puis Linux et macOS.`
+                      : `No ${product.name} release has been published yet. This page will offer the files as direct downloads as soon as the first release is out: Windows first, then Linux and macOS.`}
                 </span>
               </p>
             </Card>
@@ -201,57 +277,26 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
             {fr ? 'Configuration et prérequis' : 'Requirements'}
           </h2>
           <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
-            {[distribution.os, distribution.formats.installer, distribution.formats['portable-zip'], distribution.bundled, distribution.graphics].map((item) => (
+            {[...osOrder.map((os) => platforms[os].system), distribution.bundled, distribution.graphics].map((item) => (
               <li key={item.fr} className="flex gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" aria-hidden="true" />
                 <span>{item[language]}</span>
               </li>
             ))}
-            {[distribution.notMeasured, distribution.linux].map((item) => (
-              <li key={item.fr} className="flex gap-2">
-                <Info className="w-4 h-4 shrink-0 mt-0.5 text-slate-500" aria-hidden="true" />
-                <span>{item[language]}</span>
-              </li>
-            ))}
+            <li className="flex gap-2">
+              <Info className="w-4 h-4 shrink-0 mt-0.5 text-slate-500" aria-hidden="true" />
+              <span>{distribution.notMeasured[language]}</span>
+            </li>
           </ul>
         </section>
 
         <section className="mt-10" aria-labelledby="install">
-          <h2 id="install" className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+          <h2 id="install" className="text-2xl font-bold text-slate-900 dark:text-white">
             {fr ? 'Vérifier et installer' : 'Verify and install'}
           </h2>
-          <p className="flex gap-2 p-4 mb-4 rounded-lg border border-slate-200 dark:border-slate-800 text-sm text-slate-700 dark:text-slate-300">
-            <ShieldCheck className="w-5 h-5 shrink-0 text-tsa-blue-600 dark:text-tsa-cyan-400" aria-hidden="true" />
-            {distribution.unsigned[language]}
-          </p>
-          <ol className="list-decimal pl-6 space-y-2 text-sm text-slate-700 dark:text-slate-300 mb-4">
-            <li>{fr ? 'Téléchargez l’archive, puis ouvrez PowerShell dans le dossier de téléchargement.' : 'Download the archive, then open PowerShell in the download folder.'}</li>
-            <li>{fr ? 'Calculez son empreinte et comparez-la, caractère par caractère, à celle affichée sur cette page :' : 'Compute its checksum and compare it, character by character, with the one shown on this page:'}</li>
-          </ol>
-          <CodeBlock code={`(Get-FileHash -Algorithm SHA256 .\\${exampleFile}).Hash.ToLower()`} language="powershell" filename="PowerShell" />
-          <ol start={3} className="list-decimal pl-6 space-y-2 text-sm text-slate-700 dark:text-slate-300 mt-4">
-            <li>{fr ? 'Si les empreintes diffèrent, supprimez le fichier : il est incomplet ou modifié.' : 'If the checksums differ, delete the file: it is incomplete or altered.'}</li>
-            <li>
-              {fr
-                ? `Installateur : lancez-le et suivez l’assistant. ${product.name} s’installe pour votre compte dans %LOCALAPPDATA%\\Programs\\${product.name}, sans droit administrateur, avec un raccourci dans le menu Démarrer et l’ouverture des fichiers par double-clic.`
-                : `Installer: run it and follow the wizard. ${product.name} installs for your account in %LOCALAPPDATA%\\Programs\\${product.name}, without administrator rights, with a Start menu shortcut and double-click file opening.`}
-            </li>
-            <li>
-              {fr
-                ? `Version portable : extrayez l’archive dans un dossier de votre choix, puis lancez ${product.name}.exe.`
-                : `Portable version: extract the archive to a folder of your choice, then run ${product.name}.exe.`}
-            </li>
-            <li>
-              {fr
-                ? `Mise à jour : lancez l’installateur de la nouvelle version, qui remplace l’ancienne. Vos réglages (raccourcis, modules, journaux) sont dans ${product.dataDir} et ne sont jamais écrasés ; vos projets restent là où vous les avez enregistrés.`
-                : `Update: run the new version’s installer, which replaces the old one. Your settings (shortcuts, modules, logs) live in ${product.dataDir} and are never overwritten; your projects stay where you saved them.`}
-            </li>
-            <li>
-              {fr
-                ? `Désinstallation : Paramètres > Applications > ${product.name} > Désinstaller (ou supprimez le dossier de la version portable). Pour effacer aussi vos réglages, supprimez ${product.dataDir}.`
-                : `Uninstall: Settings > Apps > ${product.name} > Uninstall (or delete the portable folder). To erase your settings too, delete ${product.dataDir}.`}
-            </li>
-          </ol>
+          {shownOs.map((os) => (
+            <InstallBlock key={os} os={os} product={product} file={fileFor(os)} />
+          ))}
         </section>
 
         <section className="mt-10" aria-labelledby="license">

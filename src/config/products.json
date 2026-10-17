@@ -7,8 +7,8 @@
       "sourceRepo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis",
       "releaseRepo": "ChristinotLeonnel/Setup-Livrable",
       "dataDir": "%LOCALAPPDATA%\\TSA Engineering\\TSA",
-      "assetPattern": "^TSA-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64(?<kind>-setup\\.exe|\\.zip)$",
-      "tagPrefix": "tsa-v"
+      "tagPrefix": "tsa-v",
+      "assetPrefix": "TSA-"
     },
     {
       "id": "tsalab",
@@ -17,9 +17,35 @@
       "sourceRepo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis-Virtual-Laboratory",
       "releaseRepo": "ChristinotLeonnel/Setup-Livrable",
       "dataDir": "%LOCALAPPDATA%\\Tsaraloha\\TSALab",
-      "assetPattern": "^TSALab-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64(?<kind>-setup\\.exe|\\.zip)$",
-      "tagPrefix": "tsalab-v"
+      "tagPrefix": "tsalab-v",
+      "assetPrefix": "TSALab-"
     }
   ],
-  "checksumsAsset": "SHA256SUMS.txt"
+  "checksumsAsset": "SHA256SUMS.txt",
+  "assetKinds": [
+    {
+      "suffix": "-windows-x64-setup.exe",
+      "os": "windows",
+      "arch": "x64",
+      "format": "installer"
+    },
+    {
+      "suffix": "-windows-x64.zip",
+      "os": "windows",
+      "arch": "x64",
+      "format": "portable-zip"
+    },
+    {
+      "suffix": "-linux-x86_64.AppImage",
+      "os": "linux",
+      "arch": "x86_64",
+      "format": "appimage"
+    },
+    {
+      "suffix": "-macos-arm64.dmg",
+      "os": "macos",
+      "arch": "arm64",
+      "format": "dmg"
+    }
+  ]
 }

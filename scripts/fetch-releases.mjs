@@ -52,15 +52,26 @@ function parseChecksums(text) {
   return sums;
 }
 
+/**
+ * Fichier publié d'un produit : <assetPrefix><version><suffixe d'un type connu> (TSA-0.1.0-windows-x64-setup.exe,
+ * TSALab-0.2.0-linux-x86_64.AppImage…). Renvoie { version, kind } ou null pour tout autre fichier.
+ */
+function matchAsset(product, name) {
+  if (!name.startsWith(product.assetPrefix)) return null;
+  const kind = config.assetKinds.find((k) => name.endsWith(k.suffix));
+  if (!kind) return null;
+  const version = name.slice(product.assetPrefix.length, name.length - kind.suffix.length);
+  return /^[0-9][0-9A-Za-z.+-]*$/.test(version) ? { version, kind } : null;
+}
+
 async function readRelease(product, release, problems) {
   // Dépôt de diffusion commun aux logiciels : l'étiquette désigne le produit (tsa-v0.1.0, tsalab-v0.2.0-rc.1).
   if (!release.tag_name.startsWith(product.tagPrefix)) return null;
   const tagVersion = release.tag_name.slice(product.tagPrefix.length);
   const channel = classifyChannel({ ...release, tag_name: tagVersion });
   if (!channel) return null;
-  const pattern = new RegExp(product.assetPattern);
   const sumsAsset = release.assets.find((a) => a.name === config.checksumsAsset);
-  const candidates = release.assets.filter((a) => pattern.test(a.name));
+  const candidates = release.assets.filter((a) => matchAsset(product, a.name));
   if (!candidates.length) return null;
   if (!sumsAsset) {
     problems.push(`${product.id} ${release.tag_name} : ${config.checksumsAsset} absent, version écartée`);
@@ -69,17 +80,19 @@ async function readRelease(product, release, problems) {
   const sums = parseChecksums(await getText(sumsAsset.browser_download_url));
   const assets = [];
   for (const a of candidates) {
-    const { version, kind } = a.name.match(pattern).groups;
+    const { version, kind } = matchAsset(product, a.name);
     const sha256 = sums.get(a.name);
     const githubDigest = a.digest?.startsWith('sha256:') ? a.digest.slice(7) : null;
     if (version !== tagVersion) problems.push(`${product.id} ${a.name} : version ${version} ≠ étiquette ${release.tag_name}`);
     else if (!sha256) problems.push(`${product.id} ${a.name} : empreinte absente de ${config.checksumsAsset}`);
     else if (githubDigest && githubDigest !== sha256) problems.push(`${product.id} ${a.name} : empreinte publiée ≠ empreinte calculée par GitHub`);
     else if (a.size < 1024 * 1024) problems.push(`${product.id} ${a.name} : archive de ${a.size} octets, version écartée`);
-    else assets.push({ name: a.name, size: a.size, url: a.browser_download_url, sha256, os: 'windows', arch: 'x64', format: kind === '.zip' ? 'portable-zip' : 'installer', downloads: a.download_count });
+    else assets.push({ name: a.name, size: a.size, url: a.browser_download_url, sha256, os: kind.os, arch: kind.arch, format: kind.format, downloads: a.download_count });
   }
   if (!assets.length) return null;
-  assets.sort((x, y) => (x.format === 'installer' ? 0 : 1) - (y.format === 'installer' ? 0 : 1));
+  // Ordre de config.assetKinds : Windows (installateur, portable), Linux, macOS.
+  const rank = (asset) => config.assetKinds.findIndex((k) => k.format === asset.format && k.os === asset.os);
+  assets.sort((x, y) => rank(x) - rank(y));
   return {
     tag: release.tag_name,
     version: tagVersion,
