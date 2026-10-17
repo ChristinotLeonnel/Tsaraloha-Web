@@ -47,6 +47,8 @@ export interface Product {
   sourceRepo: string;
   /** Dépôt public de diffusion : GitHub Releases (installateur, archive, SHA256SUMS.txt) et tickets. */
   releaseRepo: string;
+  /** Préfixe d'étiquette des versions du produit dans releaseRepo (tsa-v, tsalab-v). */
+  tagPrefix: string;
   /** Dossier des réglages de l'utilisateur (ProductIdentity.h : organisationpplication). */
   dataDir: string;
 }
