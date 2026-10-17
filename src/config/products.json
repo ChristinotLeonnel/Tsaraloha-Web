@@ -4,15 +4,19 @@
       "id": "tsa",
       "name": "TSA",
       "fullName": "Tsaraloha Structural Analysis",
-      "repo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis",
-      "assetPattern": "^TSA-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64\\.zip$"
+      "sourceRepo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis",
+      "releaseRepo": "ChristinotLeonnel/TSA-Releases",
+      "dataDir": "%LOCALAPPDATA%\\TSA Engineering\\TSA",
+      "assetPattern": "^TSA-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64(?<kind>-setup\\.exe|\\.zip)$"
     },
     {
       "id": "tsalab",
       "name": "TSALab",
       "fullName": "Tsaraloha Structural Analysis Virtual Laboratory",
-      "repo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis-Virtual-Laboratory",
-      "assetPattern": "^TSALab-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64\\.zip$"
+      "sourceRepo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis-Virtual-Laboratory",
+      "releaseRepo": "ChristinotLeonnel/TSALab-Releases",
+      "dataDir": "%LOCALAPPDATA%\\Tsaraloha\\TSALab",
+      "assetPattern": "^TSALab-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64(?<kind>-setup\\.exe|\\.zip)$"
     }
   ],
   "checksumsAsset": "SHA256SUMS.txt"

@@ -16,7 +16,7 @@ export interface ReleaseAsset {
   sha256: string;
   os: 'windows';
   arch: 'x64';
-  format: 'portable-zip';
+  format: 'installer' | 'portable-zip';
   downloads: number;
 }
 
@@ -43,7 +43,12 @@ export interface Product {
   id: ProductId;
   name: string;
   fullName: string;
-  repo: string;
+  /** Dépôt du code source (privé : jamais lié depuis le site). */
+  sourceRepo: string;
+  /** Dépôt public de diffusion : GitHub Releases (installateur, archive, SHA256SUMS.txt) et tickets. */
+  releaseRepo: string;
+  /** Dossier des réglages de l'utilisateur (ProductIdentity.h : organisationpplication). */
+  dataDir: string;
 }
 
 export const products = productsConfig.products as Product[];
@@ -52,7 +57,7 @@ export const productById = (id: ProductId) => products.find((p) => p.id === id)!
 const data = releasesData as { generatedAt: string; products: Record<string, ProductReleases> };
 
 export function releasesOf(id: ProductId): ProductReleases {
-  return data.products[id] ?? { repo: productById(id).repo, checkedAt: null, stale: true, releases: [] };
+  return data.products[id] ?? { repo: productById(id).releaseRepo, checkedAt: null, stale: true, releases: [] };
 }
 
 /** Dernière version stable, sinon null : une préversion n'est jamais présentée comme « dernière version ». */
@@ -61,10 +66,16 @@ export const latestStable = (id: ProductId) => releasesOf(id).releases.find((r) 
 /** Faits de distribution vérifiés (TSA/docs/DEPLOYMENT.md), communs aux deux logiciels. */
 export const distribution = {
   os: { fr: 'Windows 10 ou Windows 11, 64 bits (x64)', en: 'Windows 10 or Windows 11, 64-bit (x64)' } as Localized,
-  format: {
-    fr: 'Archive ZIP d’un dossier portable : aucune installation, aucun droit administrateur',
-    en: 'ZIP archive of a portable folder: no installation, no administrator rights',
-  } as Localized,
+  formats: {
+    installer: {
+      fr: 'Installateur pour l’utilisateur courant : menu Démarrer, association des fichiers, désinstallation depuis les Paramètres ; aucun droit administrateur',
+      en: 'Per-user installer: Start menu, file association, uninstall from Settings; no administrator rights',
+    },
+    'portable-zip': {
+      fr: 'Archive ZIP d’un dossier portable : à extraire, sans installation',
+      en: 'ZIP archive of a portable folder: extract and run, no installation',
+    },
+  } as Record<'installer' | 'portable-zip', Localized>,
   bundled: {
     fr: 'Qt, OpenCASCADE et le runtime Microsoft Visual C++ sont livrés dans le dossier, ainsi qu’OpenSees si le fichier MANIFEST.json de l’archive l’indique : rien d’autre à installer',
     en: 'Qt, OpenCASCADE and the Microsoft Visual C++ runtime ship in the folder, plus OpenSees when the archive’s MANIFEST.json says so: nothing else to install',
@@ -74,8 +85,8 @@ export const distribution = {
     en: 'Graphics card with an up-to-date OpenGL driver (OpenCASCADE 3D view)',
   } as Localized,
   unsigned: {
-    fr: 'Les exécutables ne sont pas signés : Windows SmartScreen peut afficher un avertissement au premier lancement. Vérifiez l’empreinte SHA-256 avant d’ouvrir l’archive.',
-    en: 'Executables are not code-signed: Windows SmartScreen may warn on first launch. Verify the SHA-256 checksum before opening the archive.',
+    fr: 'Les fichiers ne sont pas signés : Windows SmartScreen peut afficher « Windows a protégé votre ordinateur » (cliquez sur « Informations complémentaires », puis « Exécuter quand même »). Vérifiez d’abord l’empreinte SHA-256.',
+    en: 'Files are not code-signed: Windows SmartScreen may show “Windows protected your PC” (click “More info”, then “Run anyway”). Verify the SHA-256 checksum first.',
   } as Localized,
   notMeasured: {
     fr: 'Aucune configuration matérielle minimale ou recommandée n’a encore été mesurée : les besoins en mémoire dépendent surtout de la taille du modèle et du maillage.',

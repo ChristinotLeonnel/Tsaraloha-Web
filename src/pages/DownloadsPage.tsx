@@ -5,7 +5,6 @@ import { Card } from '../components/Card';
 import { DemoProjects } from '../components/DemoProjects';
 import { ShowcaseProjects } from '../components/ShowcaseProjects';
 import { SEOHead } from '../components/SEOHead';
-import { GithubIcon } from '../components/GithubIcon';
 import { distribution, latestStable, products, releasesOf } from '../config/downloads';
 import { ArrowRight, Download } from 'lucide-react';
 
@@ -32,7 +31,7 @@ export const DownloadsPage: React.FC = () => {
               ? 'TSA et TSALab sont publiés séparément, chacun avec ses versions, ses notes et ses empreintes. Le téléchargement se fait directement depuis ces pages : le fichier provient de la publication officielle du dépôt.'
               : 'TSA and TSALab are released separately, each with its own versions, notes and checksums. Downloads start directly from these pages: the file comes from the official repository release.'}
           </p>
-          <p className="mt-3 text-sm text-slate-500">{distribution.os[language]} · {distribution.format[language]}</p>
+          <p className="mt-3 text-sm text-slate-500">{distribution.os[language]} · {fr ? 'installateur ou version portable' : 'installer or portable version'}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
@@ -64,15 +63,6 @@ export const DownloadsPage: React.FC = () => {
                     {stable ? <Download className="w-4 h-4" aria-hidden="true" /> : <ArrowRight className="w-4 h-4" aria-hidden="true" />}
                     {fr ? `Page de téléchargement de ${product.name}` : `${product.name} download page`}
                   </Link>
-                  <a
-                    href={`https://github.com/${product.repo}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                    {fr ? 'Code source' : 'Source code'}
-                  </a>
                 </div>
               </Card>
             );

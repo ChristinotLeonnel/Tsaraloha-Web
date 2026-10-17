@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-17T09:08:07.263Z",
+  "generatedAt": "2026-10-17T09:30:32.906Z",
   "products": {
     "tsa": {
-      "repo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis",
-      "checkedAt": "2026-10-17T09:08:07.263Z",
+      "repo": "ChristinotLeonnel/TSA-Releases",
+      "checkedAt": "2026-10-17T09:30:32.906Z",
       "stale": false,
       "releases": []
     },
     "tsalab": {
-      "repo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis-Virtual-Laboratory",
-      "checkedAt": "2026-10-17T09:08:07.263Z",
+      "repo": "ChristinotLeonnel/TSALab-Releases",
+      "checkedAt": "2026-10-17T09:30:32.906Z",
       "stale": false,
       "releases": []
     }

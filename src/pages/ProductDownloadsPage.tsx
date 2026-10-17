@@ -4,7 +4,6 @@ import { Link } from '../router/RouterContext';
 import { Card } from '../components/Card';
 import { CodeBlock } from '../components/CodeBlock';
 import { SEOHead } from '../components/SEOHead';
-import { GithubIcon } from '../components/GithubIcon';
 import {
   distribution,
   formatBytes,
@@ -75,15 +74,18 @@ const ReleaseCard: React.FC<{ release: Release; primary: boolean }> = ({ release
           <time dateTime={release.publishedAt}>{formatDate(release.publishedAt, language)}</time>
         </span>
       </div>
-      {release.assets.map((asset) => (
+      {release.assets.map((asset, index) => (
         <div key={asset.name} className="mb-6 last:mb-0">
+          <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-2">
+            {asset.format === 'installer' ? (fr ? 'Installateur (recommandé)' : 'Installer (recommended)') : fr ? 'Version portable' : 'Portable version'}
+          </h4>
           <dl className="grid grid-cols-1 sm:grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm mb-4">
             <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Fichier' : 'File'}</dt>
             <dd className="font-mono break-all">{asset.name}</dd>
             <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Système' : 'System'}</dt>
             <dd>{distribution.os[language]}</dd>
             <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Format' : 'Format'}</dt>
-            <dd>{distribution.format[language]}</dd>
+            <dd>{distribution.formats[asset.format][language]}</dd>
             <dt className="font-semibold text-slate-600 dark:text-slate-400">{fr ? 'Taille' : 'Size'}</dt>
             <dd>{formatBytes(asset.size, language)}</dd>
             <dt className="font-semibold text-slate-600 dark:text-slate-400">SHA-256</dt>
@@ -92,13 +94,15 @@ const ReleaseCard: React.FC<{ release: Release; primary: boolean }> = ({ release
           <a
             href={asset.url}
             className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tsa-blue-500 ${
-              primary
+              primary && index === 0
                 ? 'bg-tsa-blue-600 hover:bg-tsa-blue-700 text-white'
                 : 'border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
             <Download className="w-4 h-4" aria-hidden="true" />
-            {fr ? `Télécharger ${release.version} (${formatBytes(asset.size, language)})` : `Download ${release.version} (${formatBytes(asset.size, language)})`}
+            {asset.format === 'installer'
+              ? fr ? `Télécharger l’installateur ${release.version} (${formatBytes(asset.size, language)})` : `Download installer ${release.version} (${formatBytes(asset.size, language)})`
+              : fr ? `Télécharger le ZIP portable ${release.version} (${formatBytes(asset.size, language)})` : `Download portable ZIP ${release.version} (${formatBytes(asset.size, language)})`}
           </a>
         </div>
       ))}
@@ -121,8 +125,7 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
   const info = releasesOf(productId);
   const stable = latestStable(productId);
   const others = info.releases.filter((r) => r !== stable);
-  const repoUrl = `https://github.com/${product.repo}`;
-  const exampleFile = stable?.assets[0]?.name ?? `${product.name}-<version>-windows-x64.zip`;
+  const exampleFile = stable?.assets[0]?.name ?? `${product.name}-<version>-windows-x64-setup.exe`;
 
   return (
     <div className="w-full py-12 lg:py-16">
@@ -172,19 +175,10 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
                       ? `Aucune version stable de ${product.name} n’est publiée. Les préversions ci-dessous servent aux essais et peuvent contenir des défauts.`
                       : `No stable ${product.name} release is published. The pre-releases below are for testing and may contain defects.`
                     : fr
-                      ? `Aucune version de ${product.name} n’est encore publiée. Le code source est disponible sur le dépôt officiel ; cette page proposera le téléchargement direct dès la première publication.`
-                      : `No ${product.name} release has been published yet. The source code is available in the official repository; this page will offer the direct download as soon as the first release is out.`}
+                      ? `Aucune version de ${product.name} n’est encore publiée. Cette page proposera l’installateur et la version portable, en téléchargement direct, dès la première publication.`
+                      : `No ${product.name} release has been published yet. This page will offer the installer and the portable version, as direct downloads, as soon as the first release is out.`}
                 </span>
               </p>
-              <a
-                href={repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <GithubIcon className="w-4 h-4" />
-                {fr ? 'Code source sur GitHub' : 'Source code on GitHub'}
-              </a>
             </Card>
           )}
         </section>
@@ -207,7 +201,7 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
             {fr ? 'Configuration et prérequis' : 'Requirements'}
           </h2>
           <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
-            {[distribution.os, distribution.format, distribution.bundled, distribution.graphics].map((item) => (
+            {[distribution.os, distribution.formats.installer, distribution.formats['portable-zip'], distribution.bundled, distribution.graphics].map((item) => (
               <li key={item.fr} className="flex gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" aria-hidden="true" />
                 <span>{item[language]}</span>
@@ -237,9 +231,26 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
           <CodeBlock code={`(Get-FileHash -Algorithm SHA256 .\\${exampleFile}).Hash.ToLower()`} language="powershell" filename="PowerShell" />
           <ol start={3} className="list-decimal pl-6 space-y-2 text-sm text-slate-700 dark:text-slate-300 mt-4">
             <li>{fr ? 'Si les empreintes diffèrent, supprimez le fichier : il est incomplet ou modifié.' : 'If the checksums differ, delete the file: it is incomplete or altered.'}</li>
-            <li>{fr ? `Extrayez l’archive dans un dossier de votre choix (par exemple Documents\\${product.name}), puis lancez ${product.name}.exe.` : `Extract the archive to a folder of your choice (for example Documents\\${product.name}), then run ${product.name}.exe.`}</li>
-            <li>{fr ? 'Mise à jour : extrayez la nouvelle version dans un autre dossier. Vos réglages (raccourcis, modules, journaux) sont dans %LOCALAPPDATA%\\TSA Engineering et ne sont jamais écrasés ; vos projets restent là où vous les avez enregistrés.' : 'Update: extract the new version into another folder. Your settings (shortcuts, modules, logs) live in %LOCALAPPDATA%\\TSA Engineering and are never overwritten; your projects stay where you saved them.'}</li>
-            <li>{fr ? 'Désinstallation : supprimez le dossier du logiciel, et, si vous ne voulez rien garder, le dossier %LOCALAPPDATA%\\TSA Engineering.' : 'Uninstall: delete the software folder and, if you want nothing left, the %LOCALAPPDATA%\\TSA Engineering folder.'}</li>
+            <li>
+              {fr
+                ? `Installateur : lancez-le et suivez l’assistant. ${product.name} s’installe pour votre compte dans %LOCALAPPDATA%\\Programs\\${product.name}, sans droit administrateur, avec un raccourci dans le menu Démarrer et l’ouverture des fichiers par double-clic.`
+                : `Installer: run it and follow the wizard. ${product.name} installs for your account in %LOCALAPPDATA%\\Programs\\${product.name}, without administrator rights, with a Start menu shortcut and double-click file opening.`}
+            </li>
+            <li>
+              {fr
+                ? `Version portable : extrayez l’archive dans un dossier de votre choix, puis lancez ${product.name}.exe.`
+                : `Portable version: extract the archive to a folder of your choice, then run ${product.name}.exe.`}
+            </li>
+            <li>
+              {fr
+                ? `Mise à jour : lancez l’installateur de la nouvelle version, qui remplace l’ancienne. Vos réglages (raccourcis, modules, journaux) sont dans ${product.dataDir} et ne sont jamais écrasés ; vos projets restent là où vous les avez enregistrés.`
+                : `Update: run the new version’s installer, which replaces the old one. Your settings (shortcuts, modules, logs) live in ${product.dataDir} and are never overwritten; your projects stay where you saved them.`}
+            </li>
+            <li>
+              {fr
+                ? `Désinstallation : Paramètres > Applications > ${product.name} > Désinstaller (ou supprimez le dossier de la version portable). Pour effacer aussi vos réglages, supprimez ${product.dataDir}.`
+                : `Uninstall: Settings > Apps > ${product.name} > Uninstall (or delete the portable folder). To erase your settings too, delete ${product.dataDir}.`}
+            </li>
           </ol>
         </section>
 

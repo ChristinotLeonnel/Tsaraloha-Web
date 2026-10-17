@@ -9,10 +9,10 @@ export const siteConfig = {
   version: '0.1.0-dev',
   urls: {
     github: 'https://github.com/ChristinotLeonnel/Tsaraloha-Web',
-    softwareGithub: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis',
-    releases: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis/releases',
-    issues: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis/issues',
-    newIssue: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis/issues/new',
+    // Code source de TSA et TSALab : dépôts privés, jamais liés. Tickets : dépôt public de diffusion
+    // (src/config/products.json, releaseRepo), seul lieu public des versions et des retours.
+    issues: 'https://github.com/ChristinotLeonnel/TSA-Releases/issues',
+    newIssue: 'https://github.com/ChristinotLeonnel/TSA-Releases/issues/new',
     docs: '/docs',
     opensees: 'https://opensees.berkeley.edu/',
     occt: 'https://dev.opencascade.org/',

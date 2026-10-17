@@ -1,4 +1,5 @@
-// Avant la construction : lit les GitHub Releases publiques de chaque logiciel (src/config/products.json) et écrit
+// Avant la construction : lit les GitHub Releases du dépôt public de diffusion de chaque logiciel (releaseRepo de
+// src/config/products.json ; le code source, lui, est dans un dépôt privé) et écrit
 // src/generated/releases.json, seule source des pages de téléchargement. Une version n'est retenue que si son archive
 // porte le nom attendu, si la version du nom correspond à l'étiquette et si son empreinte SHA-256 figure dans le fichier
 // d'empreintes publié avec elle (recoupée avec l'empreinte calculée par GitHub quand l'API la donne). Rien n'est inventé :
@@ -35,12 +36,6 @@ function classifyChannel(release) {
   return 'stable';
 }
 
-async function getJson(url) {
-  const res = await fetch(url, { headers });
-  if (!res.ok) throw new Error(`${url} : HTTP ${res.status}`);
-  return res.json();
-}
-
 async function getText(url) {
   const res = await fetch(url, { headers: { 'User-Agent': headers['User-Agent'] } });
   if (!res.ok) throw new Error(`${url} : HTTP ${res.status}`);
@@ -72,16 +67,17 @@ async function readRelease(product, release, problems) {
   const sums = parseChecksums(await getText(sumsAsset.browser_download_url));
   const assets = [];
   for (const a of candidates) {
-    const version = a.name.match(pattern).groups.version;
+    const { version, kind } = a.name.match(pattern).groups;
     const sha256 = sums.get(a.name);
     const githubDigest = a.digest?.startsWith('sha256:') ? a.digest.slice(7) : null;
     if (version !== tagVersion) problems.push(`${product.id} ${a.name} : version ${version} ≠ étiquette ${release.tag_name}`);
     else if (!sha256) problems.push(`${product.id} ${a.name} : empreinte absente de ${config.checksumsAsset}`);
     else if (githubDigest && githubDigest !== sha256) problems.push(`${product.id} ${a.name} : empreinte publiée ≠ empreinte calculée par GitHub`);
     else if (a.size < 1024 * 1024) problems.push(`${product.id} ${a.name} : archive de ${a.size} octets, version écartée`);
-    else assets.push({ name: a.name, size: a.size, url: a.browser_download_url, sha256, os: 'windows', arch: 'x64', format: 'portable-zip', downloads: a.download_count });
+    else assets.push({ name: a.name, size: a.size, url: a.browser_download_url, sha256, os: 'windows', arch: 'x64', format: kind === '.zip' ? 'portable-zip' : 'installer', downloads: a.download_count });
   }
   if (!assets.length) return null;
+  assets.sort((x, y) => (x.format === 'installer' ? 0 : 1) - (y.format === 'installer' ? 0 : 1));
   return {
     tag: release.tag_name,
     version: tagVersion,
@@ -102,20 +98,24 @@ let failed = false;
 for (const product of config.products) {
   const problems = [];
   try {
-    const list = await getJson(`https://api.github.com/repos/${product.repo}/releases?per_page=30`);
+    // 404 : dépôt de diffusion absent (ou non public) — réponse certaine, « aucune version publiée », et non panne.
+    const res = await fetch(`https://api.github.com/repos/${product.releaseRepo}/releases?per_page=30`, { headers });
+    if (res.status === 404) problems.push(`${product.id} : dépôt ${product.releaseRepo} introuvable ou non public, aucune version affichée`);
+    else if (!res.ok) throw new Error(`${product.releaseRepo} : HTTP ${res.status}`);
+    const list = res.status === 404 ? [] : await res.json();
     const releases = [];
     for (const r of list.filter((r) => !r.draft)) {
       const entry = await readRelease(product, r, problems);
       if (entry) releases.push(entry);
     }
     releases.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
-    output.products[product.id] = { repo: product.repo, checkedAt: output.generatedAt, stale: false, releases };
+    output.products[product.id] = { repo: product.releaseRepo, checkedAt: output.generatedAt, stale: false, releases };
     console.log(`${product.id} : ${releases.length} version(s) retenue(s) sur ${list.length} publiée(s)`);
   } catch (err) {
     failed = true;
     console.warn(`${product.id} : GitHub injoignable (${err.message})`);
     const kept = previous.products[product.id];
-    output.products[product.id] = kept ? { ...kept, stale: true } : { repo: product.repo, checkedAt: null, stale: true, releases: [] };
+    output.products[product.id] = kept ? { ...kept, stale: true } : { repo: product.releaseRepo, checkedAt: null, stale: true, releases: [] };
   }
   for (const p of problems) console.warn(`  écarté — ${p}`);
 }
