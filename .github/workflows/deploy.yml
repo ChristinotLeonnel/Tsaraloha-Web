@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+  # Déclenché par le flux de publication des logiciels après une nouvelle Release.
+  repository_dispatch:
+    types: [ software-release ]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -32,10 +35,18 @@ jobs:
       - name: Install dependencies
         run: npm ci || npm install
 
+      # Versions publiées lues côté serveur ; --strict arrête le déploiement si GitHub ne répond pas,
+      # plutôt que de publier des téléchargements non actualisés.
+      - name: Fetch published releases
+        run: node scripts/fetch-releases.mjs --strict
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build static site
         run: npm run build
         env:
           VITE_BASE_PATH: /Tsaraloha-Web/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

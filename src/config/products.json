@@ -1,0 +1,19 @@
+{
+  "products": [
+    {
+      "id": "tsa",
+      "name": "TSA",
+      "fullName": "Tsaraloha Structural Analysis",
+      "repo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis",
+      "assetPattern": "^TSA-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64\\.zip$"
+    },
+    {
+      "id": "tsalab",
+      "name": "TSALab",
+      "fullName": "Tsaraloha Structural Analysis Virtual Laboratory",
+      "repo": "ChristinotLeonnel/Tsaraloha-Structural-Analysis-Virtual-Laboratory",
+      "assetPattern": "^TSALab-(?<version>[0-9][0-9A-Za-z.+-]*)-windows-x64\\.zip$"
+    }
+  ],
+  "checksumsAsset": "SHA256SUMS.txt"
+}
