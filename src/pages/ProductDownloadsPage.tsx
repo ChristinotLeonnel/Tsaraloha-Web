@@ -258,8 +258,12 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
           <h2 id="license" className="text-2xl font-bold text-slate-900 dark:text-white mb-4">{fr ? 'Licence' : 'License'}</h2>
           <p className="text-sm text-slate-700 dark:text-slate-300">
             {fr
-              ? `${product.name} est distribué sous licence MIT (fichier LICENSE.txt, installé avec le logiciel). Les composants tiers livrés (Qt, OpenCASCADE, OpenSees, runtime Visual C++) gardent leurs propres licences, copiées dans le dossier licenses ; OpenSees n’est utilisable sans accord qu’à des fins éducatives, de recherche ou non lucratives. Le maillage (Gmsh) n’est pas inclus dans les versions publiques. `
-              : `${product.name} is distributed under the MIT license (LICENSE.txt, installed with the software). Bundled third-party components (Qt, OpenCASCADE, OpenSees, Visual C++ runtime) keep their own licenses, copied into the licenses folder; OpenSees may be used without an agreement only for educational, research or non-profit purposes. Meshing (Gmsh) is not included in public builds. `}
+              ? `Le code de ${product.name} est sous licence MIT (LICENSE.txt, installé avec le logiciel). Le mailleur Gmsh, livré, est sous licence GNU GPL : la version distribuée l’est donc, dans son ensemble, selon les termes de la GPL, et son code source correspondant est public (licenses/Gmsh/SOURCE.txt). Les autres composants (Qt, OpenCASCADE, OpenSees, runtime Visual C++) gardent leurs licences, copiées dans le dossier licenses ; OpenSees n’est utilisable sans accord qu’à des fins éducatives, de recherche ou non lucratives. `
+              : `${product.name} code is under the MIT license (LICENSE.txt, installed with the software). The bundled Gmsh mesher is under the GNU GPL: the distributed build is therefore, as a whole, under the terms of the GPL, and its corresponding source is public (licenses/Gmsh/SOURCE.txt). Other components (Qt, OpenCASCADE, OpenSees, Visual C++ runtime) keep their licenses, copied into the licenses folder; OpenSees may be used without an agreement only for educational, research or non-profit purposes. `}
+            <a href={`https://github.com/${product.sourceRepo}`} target="_blank" rel="noopener noreferrer" className="text-tsa-blue-700 dark:text-tsa-cyan-400 underline">
+              {fr ? 'Code source' : 'Source code'}
+            </a>
+            {' · '}
             <Link to="/licensing" className="text-tsa-blue-700 dark:text-tsa-cyan-400 underline">
               {fr ? 'Détail des licences' : 'License details'}
             </Link>

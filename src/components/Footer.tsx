@@ -34,6 +34,7 @@ export const Footer: React.FC = () => {
     { href: siteConfig.urls.gmsh, label: 'Gmsh', icon: Grid3X3 },
   ];
   const community: ExternalItem[] = [
+    { href: siteConfig.urls.softwareGithub, label: fr ? 'Code source de TSA' : 'TSA source code', icon: GithubIcon },
     { href: siteConfig.urls.issues, label: fr ? 'Signaler un bug' : 'Report a bug', icon: Bug },
     { href: siteConfig.urls.github, label: fr ? 'Code source du site' : 'Website source code', icon: GithubIcon },
   ];

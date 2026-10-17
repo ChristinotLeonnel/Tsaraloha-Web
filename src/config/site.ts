@@ -9,8 +9,9 @@ export const siteConfig = {
   version: '0.1.0-dev',
   urls: {
     github: 'https://github.com/ChristinotLeonnel/Tsaraloha-Web',
-    // Code source de TSA et TSALab : dépôts privés, jamais liés. Tickets : dépôt public de diffusion
-    // (src/config/products.json, releaseRepo), seul lieu public des versions et des retours.
+    // Code source de TSA et TSALab : dépôts publics (products.json, sourceRepo). Versions et tickets :
+    // dépôt public de diffusion Setup-Livrable (releaseRepo).
+    softwareGithub: 'https://github.com/ChristinotLeonnel/Tsaraloha-Structural-Analysis',
     issues: 'https://github.com/ChristinotLeonnel/Setup-Livrable/issues',
     newIssue: 'https://github.com/ChristinotLeonnel/Setup-Livrable/issues/new',
     docs: '/docs',
