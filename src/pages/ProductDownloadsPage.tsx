@@ -258,8 +258,8 @@ export const ProductDownloadsPage: React.FC<{ productId: ProductId }> = ({ produ
           <h2 id="license" className="text-2xl font-bold text-slate-900 dark:text-white mb-4">{fr ? 'Licence' : 'License'}</h2>
           <p className="text-sm text-slate-700 dark:text-slate-300">
             {fr
-              ? `La licence de ${product.name} lui-même n’est pas encore fixée par son auteur. Les composants tiers livrés (Qt, OpenCASCADE, OpenSees, Gmsh…) gardent leurs propres licences, copiées dans le dossier licenses de l’archive. `
-              : `The license of ${product.name} itself has not been set by its author yet. Bundled third-party components (Qt, OpenCASCADE, OpenSees, Gmsh…) keep their own licenses, copied into the archive’s licenses folder. `}
+              ? `${product.name} est distribué sous licence MIT (fichier LICENSE.txt, installé avec le logiciel). Les composants tiers livrés (Qt, OpenCASCADE, OpenSees, runtime Visual C++) gardent leurs propres licences, copiées dans le dossier licenses ; OpenSees n’est utilisable sans accord qu’à des fins éducatives, de recherche ou non lucratives. Le maillage (Gmsh) n’est pas inclus dans les versions publiques. `
+              : `${product.name} is distributed under the MIT license (LICENSE.txt, installed with the software). Bundled third-party components (Qt, OpenCASCADE, OpenSees, Visual C++ runtime) keep their own licenses, copied into the licenses folder; OpenSees may be used without an agreement only for educational, research or non-profit purposes. Meshing (Gmsh) is not included in public builds. `}
             <Link to="/licensing" className="text-tsa-blue-700 dark:text-tsa-cyan-400 underline">
               {fr ? 'Détail des licences' : 'License details'}
             </Link>
