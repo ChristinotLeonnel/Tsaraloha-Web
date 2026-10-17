@@ -6,7 +6,7 @@ import { DemoProjects } from '../components/DemoProjects';
 import { ShowcaseProjects } from '../components/ShowcaseProjects';
 import { SEOHead } from '../components/SEOHead';
 import { GithubIcon } from '../components/GithubIcon';
-import { distribution, latestStable, products, releasesOf } from '../config/downloads';
+import { latestStable, products, releasesOf } from '../config/downloads';
 import { ArrowRight, Download } from 'lucide-react';
 
 export const DownloadsPage: React.FC = () => {
@@ -32,7 +32,7 @@ export const DownloadsPage: React.FC = () => {
               ? 'TSA et TSALab sont publiés séparément, chacun avec ses versions, ses notes et ses empreintes. Le téléchargement se fait directement depuis ces pages : le fichier provient de la publication officielle du dépôt.'
               : 'TSA and TSALab are released separately, each with its own versions, notes and checksums. Downloads start directly from these pages: the file comes from the official repository release.'}
           </p>
-          <p className="mt-3 text-sm text-slate-500">{distribution.os[language]} · {fr ? 'installateur ou version portable' : 'installer or portable version'}</p>
+          <p className="mt-3 text-sm text-slate-500">{fr ? 'Windows (installateur ou version portable), Linux (AppImage), macOS sur processeur Apple (DMG) : chaque système apparaît dès que sa version a été compilée, testée et publiée.' : 'Windows (installer or portable), Linux (AppImage), macOS on Apple silicon (DMG): each system appears once its build has been compiled, tested and published.'}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">

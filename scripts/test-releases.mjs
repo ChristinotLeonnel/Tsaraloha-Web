@@ -22,6 +22,8 @@ const release = (tag, assets, extra = {}) => ({
 const sums = [
   `${sha('a')}  TSA-0.2.0-windows-x64.zip`,
   `${sha('9')}  TSA-0.2.0-windows-x64-setup.exe`,
+  `${sha('7')}  TSA-0.2.0-linux-x86_64.AppImage`,
+  `${sha('8')}  TSA-0.2.0-macos-arm64.dmg`,
   `${sha('b')}  TSA-0.3.0-rc.1-windows-x64.zip`,
   `${sha('c')}  TSA-0.4.0-windows-x64.zip`,
   `${sha('d')}  TSA-0.5.0-windows-x64.zip`,
@@ -30,7 +32,7 @@ const sums = [
 ].join('\n');
 
 const listing = [
-  release('tsa-v0.2.0', [asset('TSA-0.2.0-windows-x64.zip', 80 * MB, `sha256:${sha('a')}`), asset('TSA-0.2.0-windows-x64-setup.exe', 70 * MB)]), // retenue, stable
+  release('tsa-v0.2.0', [asset('TSA-0.2.0-macos-arm64.dmg', 90 * MB), asset('TSA-0.2.0-windows-x64.zip', 80 * MB, `sha256:${sha('a')}`), asset('TSA-0.2.0-linux-x86_64.AppImage', 95 * MB), asset('TSA-0.2.0-windows-x64-setup.exe', 70 * MB), asset('TSA-0.2.0-linux-x86_64.tar.gz', 95 * MB)]), // retenue, stable
   release('tsa-v0.3.0-rc.1', [asset('TSA-0.3.0-rc.1-windows-x64.zip', 80 * MB)]),                         // retenue, préversion
   release('tsa-v0.4.0', [asset('TSA-0.4.0-windows-x64.zip', 80 * MB, `sha256:${sha('f')}`)]),              // empreinte ≠ GitHub
   release('tsa-v0.5.0', [asset('TSA-0.5.0-windows-x64.zip', 10)]),                                        // archive vide
@@ -81,9 +83,11 @@ check('une seule requête pour les deux logiciels', listCalls === 1);
 check('deux versions TSA retenues', tsa.releases.length === 2);
 check('la plus récente en premier', tsa.releases[0]?.tag === 'tsa-v0.3.0-rc.1');
 const v020 = tsa.releases.find((r) => r.tag === 'tsa-v0.2.0');
-check('tsa-v0.2.0 stable, version 0.2.0 : installateur puis archive, empreintes de SHA256SUMS',
-  v020?.channel === 'stable' && v020.version === '0.2.0' && v020.assets.map((a) => a.format).join() === 'installer,portable-zip'
-  && v020.assets[0].sha256 === sha('9') && v020.assets[1].sha256 === sha('a'));
+check('tsa-v0.2.0 stable : Windows (installateur, portable), Linux, macOS, dans cet ordre, empreintes de SHA256SUMS',
+  v020?.channel === 'stable' && v020.version === '0.2.0'
+  && v020.assets.map((a) => `${a.os}/${a.arch}/${a.format}`).join() === 'windows/x64/installer,windows/x64/portable-zip,linux/x86_64/appimage,macos/arm64/dmg'
+  && v020.assets.map((a) => a.sha256).join() === [sha('9'), sha('a'), sha('7'), sha('8')].join());
+check('type de fichier inconnu (tar.gz) ignoré', !v020?.assets.some((a) => a.name.endsWith('.tar.gz')));
 check('tsa-v0.3.0-rc.1 préversion', tsa.releases.find((r) => r.tag === 'tsa-v0.3.0-rc.1')?.channel === 'prerelease');
 check('URL directe du fichier publié', tsa.releases[0]?.assets[0].url === 'https://dl.test/TSA-0.3.0-rc.1-windows-x64.zip');
 check('empreinte contredite par GitHub écartée', warnings.some((w) => w.includes('0.4.0') && w.includes('calculée par GitHub')));
