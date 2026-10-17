@@ -11,8 +11,8 @@ export const siteConfig = {
     github: 'https://github.com/ChristinotLeonnel/Tsaraloha-Web',
     // Code source de TSA et TSALab : dépôts privés, jamais liés. Tickets : dépôt public de diffusion
     // (src/config/products.json, releaseRepo), seul lieu public des versions et des retours.
-    issues: 'https://github.com/ChristinotLeonnel/TSA-Releases/issues',
-    newIssue: 'https://github.com/ChristinotLeonnel/TSA-Releases/issues/new',
+    issues: 'https://github.com/ChristinotLeonnel/Setup-Livrable/issues',
+    newIssue: 'https://github.com/ChristinotLeonnel/Setup-Livrable/issues/new',
     docs: '/docs',
     opensees: 'https://opensees.berkeley.edu/',
     occt: 'https://dev.opencascade.org/',

@@ -53,10 +53,12 @@ function parseChecksums(text) {
 }
 
 async function readRelease(product, release, problems) {
-  const channel = classifyChannel(release);
+  // Dépôt de diffusion commun aux logiciels : l'étiquette désigne le produit (tsa-v0.1.0, tsalab-v0.2.0-rc.1).
+  if (!release.tag_name.startsWith(product.tagPrefix)) return null;
+  const tagVersion = release.tag_name.slice(product.tagPrefix.length);
+  const channel = classifyChannel({ ...release, tag_name: tagVersion });
   if (!channel) return null;
   const pattern = new RegExp(product.assetPattern);
-  const tagVersion = release.tag_name.replace(/^v/, '');
   const sumsAsset = release.assets.find((a) => a.name === config.checksumsAsset);
   const candidates = release.assets.filter((a) => pattern.test(a.name));
   if (!candidates.length) return null;
@@ -95,14 +97,26 @@ const previous = existsSync(target) ? JSON.parse(readFileSync(target, 'utf8')) :
 const output = { generatedAt: new Date().toISOString(), products: {} };
 let failed = false;
 
+// Une seule requête par dépôt, même s'il sert plusieurs logiciels. 404 : dépôt absent (ou non public) — réponse
+// certaine, « aucune version publiée », et non panne.
+const listings = new Map();
+function listReleases(repo) {
+  if (!listings.has(repo))
+    listings.set(repo, (async () => {
+      const res = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=100`, { headers });
+      if (res.status === 404) return null;
+      if (!res.ok) throw new Error(`${repo} : HTTP ${res.status}`);
+      return res.json();
+    })());
+  return listings.get(repo);
+}
+
 for (const product of config.products) {
   const problems = [];
   try {
-    // 404 : dépôt de diffusion absent (ou non public) — réponse certaine, « aucune version publiée », et non panne.
-    const res = await fetch(`https://api.github.com/repos/${product.releaseRepo}/releases?per_page=30`, { headers });
-    if (res.status === 404) problems.push(`${product.id} : dépôt ${product.releaseRepo} introuvable ou non public, aucune version affichée`);
-    else if (!res.ok) throw new Error(`${product.releaseRepo} : HTTP ${res.status}`);
-    const list = res.status === 404 ? [] : await res.json();
+    const listing = await listReleases(product.releaseRepo);
+    if (!listing) problems.push(`${product.id} : dépôt ${product.releaseRepo} introuvable ou non public, aucune version affichée`);
+    const list = listing ?? [];
     const releases = [];
     for (const r of list.filter((r) => !r.draft)) {
       const entry = await readRelease(product, r, problems);
@@ -110,7 +124,8 @@ for (const product of config.products) {
     }
     releases.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     output.products[product.id] = { repo: product.releaseRepo, checkedAt: output.generatedAt, stale: false, releases };
-    console.log(`${product.id} : ${releases.length} version(s) retenue(s) sur ${list.length} publiée(s)`);
+    const own = list.filter((r) => r.tag_name.startsWith(product.tagPrefix)).length;
+    console.log(`${product.id} : ${releases.length} version(s) retenue(s) sur ${own} publiée(s) (étiquettes ${product.tagPrefix}*)`);
   } catch (err) {
     failed = true;
     console.warn(`${product.id} : GitHub injoignable (${err.message})`);
