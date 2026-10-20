@@ -44,7 +44,8 @@ TSA Web/
 │   ├── assets/
 │   │   ├── branding/             # Official TSA SVGs, PNGs, and ICOs
 │   │   └── icons/                # Genuine structural/CAD action icons
-│   ├── 404.html                  # SPA client-side routing fallback for GitHub Pages
+│   ├── 404.html                  # SPA client-side routing fallback for GitHub Pages (+ old /fem3d/… pages redirect)
+│   ├── fem3d/index.html          # Redirect of the former /fem3d/ copy to the official Fem3D documentation site
 │   ├── favicon.svg               # Official TSA vector favicon
 │   ├── robots.txt                # Search engine crawler configuration
 │   └── sitemap.xml               # SEO sitemap
@@ -164,6 +165,13 @@ The repository contains an automated GitHub Actions workflow in [`.github/workfl
    - Build the static bundle (`npm run build`).
    - Publish to GitHub Pages at:
      **`https://christinotleonnel.github.io/Tsaraloha-Web/`**
+
+### Fem3D Engine Documentation
+The documentation of the Fem3D engine is **not built here**: it is published by its own repository
+([TSA-3D-FEM-Engine](https://github.com/ChristinotLeonnel/TSA-3D-FEM-Engine)) at
+**`https://christinotleonnel.github.io/TSA-3D-FEM-Engine/`**, linked from the *Moteurs de calcul* documentation page.
+The former copy under `/Tsaraloha-Web/fem3d/` (2026-10-19) redirects there, page by page
+(`public/fem3d/index.html` and `public/404.html`).
 
 ### Custom Domain Support
 To configure a custom domain (e.g., `tsaraloha.org`):
