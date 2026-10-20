@@ -14,9 +14,9 @@
           "assets": [
             {
               "name": "TSA-0.1.0-windows-x64-setup.exe",
-              "size": 69716178,
+              "size": 138854695,
               "url": "https://github.com/ChristinotLeonnel/Setup-Livrable/releases/download/tsa-v0.1.0/TSA-0.1.0-windows-x64-setup.exe",
-              "sha256": "81036c519627198715ee415c8528f579528fab8feadd9e81742805d5d2840e31",
+              "sha256": "485183654db481f56c2a0b3a0f0c40cbe69cbc539d2c8a83e11a13dfde264269",
               "os": "windows",
               "arch": "x64",
               "format": "installer",
