@@ -21,6 +21,16 @@ const strict = process.argv.includes('--strict');
 const headers = { Accept: 'application/vnd.github+json', 'User-Agent': 'tsaraloha-web-build', 'X-GitHub-Api-Version': '2022-11-28' };
 if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 
+const directConfigPath = process.env.RELEASES_DIRECT ?? (process.env.RELEASES_OUT ? null : join(root, 'src/config/releases-direct.json'));
+let directReleases = null;
+if (directConfigPath && existsSync(directConfigPath)) {
+  try {
+    directReleases = JSON.parse(readFileSync(directConfigPath, 'utf8'));
+  } catch (err) {
+    console.warn(`Impossible de lire les versions directes (${directConfigPath}) : ${err.message}`);
+  }
+}
+
 /**
  * Canal de diffusion d'une version publiée : 'stable', 'prerelease', 'experimental', ou null pour l'écarter du site.
  * `release` est l'objet de l'API GitHub (tag_name, name, prerelease, body…).
@@ -135,15 +145,30 @@ for (const product of config.products) {
       const entry = await readRelease(product, r, problems);
       if (entry) releases.push(entry);
     }
+    const directList = directReleases?.products?.[product.id]?.releases ?? [];
+    for (const d of directList) {
+      const idx = releases.findIndex((r) => r.tag === d.tag);
+      if (idx === -1) {
+        releases.push(d);
+      } else {
+        releases[idx] = { ...releases[idx], ...d };
+      }
+    }
     releases.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     output.products[product.id] = { repo: product.releaseRepo, checkedAt: output.generatedAt, stale: false, releases };
     const own = list.filter((r) => r.tag_name.startsWith(product.tagPrefix)).length;
-    console.log(`${product.id} : ${releases.length} version(s) retenue(s) sur ${own} publiée(s) (étiquettes ${product.tagPrefix}*)`);
+    console.log(`${product.id} : ${releases.length} version(s) retenue(s) sur ${own} publiée(s) GitHub (+${directList.length} directe(s))`);
   } catch (err) {
     failed = true;
     console.warn(`${product.id} : GitHub injoignable (${err.message})`);
     const kept = previous.products[product.id];
-    output.products[product.id] = kept ? { ...kept, stale: true } : { repo: product.releaseRepo, checkedAt: null, stale: true, releases: [] };
+    const directList = directReleases?.products?.[product.id]?.releases ?? [];
+    const mergedReleases = kept ? [...kept.releases] : [];
+    for (const d of directList) {
+      if (!mergedReleases.some((r) => r.tag === d.tag)) mergedReleases.push(d);
+    }
+    mergedReleases.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+    output.products[product.id] = kept ? { ...kept, stale: true, releases: mergedReleases } : { repo: product.releaseRepo, checkedAt: null, stale: true, releases: mergedReleases };
   }
   for (const p of problems) console.warn(`  écarté — ${p}`);
 }

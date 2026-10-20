@@ -1,15 +1,38 @@
 {
-  "generatedAt": "2026-10-17T09:46:22.470Z",
+  "generatedAt": "2026-10-20T09:46:23.318Z",
   "products": {
     "tsa": {
       "repo": "ChristinotLeonnel/Setup-Livrable",
-      "checkedAt": "2026-10-17T09:46:22.470Z",
+      "checkedAt": "2026-10-20T09:46:23.318Z",
       "stale": false,
-      "releases": []
+      "releases": [
+        {
+          "tag": "tsa-v0.1.0",
+          "version": "0.1.0",
+          "channel": "stable",
+          "title": "TSA 0.1.0 — Version Officielle Windows",
+          "publishedAt": "2026-10-20T10:00:00Z",
+          "notes": "Version officielle initiale de Tsaraloha Structural Analysis (TSA) pour Windows 64 bits.\n\nFonctionnalités incluses :\n- Modélisation géométrique 3D interactive basée sur le noyau OpenCASCADE 8.0.1 (B-Rep, solides, sections personnalisées).\n- Solveur éléments finis OpenSees 3.8.0 intégré pour l'analyse élastique linéaire, non-linéaire, modale et sismique.\n- Mailleur automatique Gmsh 4.15.2 pour la discrétisation éléments finis 1D, 2D et 3D.\n- Support des formats industriels : importation et exportation IFC 2x3 / IFC4 via IfcOpenShell 0.9.0, DXF, VTK, CSV.\n- Interface ruban moderne développée avec Qt 6.11, support des écrans haute résolution (DPI scaling) et thèmes d'ingénierie.\n- Générateur de notes de calcul et de rapports d'ingénierie exportables en PDF.\n- Installateur Windows professionnel autonome avec association de fichiers .tsa et intégration de miniatures dans l'Explorateur Windows.",
+          "pageUrl": "/downloads/tsa",
+          "checksumsUrl": "https://downloads.tsaraloha.org/releases/SHA256SUMS.txt",
+          "assets": [
+            {
+              "name": "TSA-0.1.0-windows-x64-setup.exe",
+              "size": 69716178,
+              "url": "https://downloads.tsaraloha.org/releases/TSA-0.1.0-windows-x64-setup.exe",
+              "sha256": "81036c519627198715ee415c8528f579528fab8feadd9e81742805d5d2840e31",
+              "os": "windows",
+              "arch": "x64",
+              "format": "installer",
+              "downloads": 0
+            }
+          ]
+        }
+      ]
     },
     "tsalab": {
       "repo": "ChristinotLeonnel/Setup-Livrable",
-      "checkedAt": "2026-10-17T09:46:22.470Z",
+      "checkedAt": "2026-10-20T09:46:23.318Z",
       "stale": false,
       "releases": []
     }
