@@ -51,29 +51,9 @@ jobs:
           VITE_BASE_PATH: /Tsaraloha-Web/
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Documentation du moteur Fem3D (dépôt public TSA-3D-FEM-Engine, branche main), publiée sous /fem3d/.
-      # Source unique : le site est construit depuis le dépôt Fem3D, jamais recopié ici ; --strict arrête le
-      # déploiement si un lien ou une page est cassé.
-      - name: Checkout Fem3D documentation
-        uses: actions/checkout@v4
-        with:
-          repository: ChristinotLeonnel/TSA-3D-FEM-Engine
-          ref: main
-          path: fem3d-src
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: 'pip'
-          cache-dependency-path: fem3d-src/docs/requirements.txt
-
-      - name: Build Fem3D documentation
-        run: |
-          pip install -r fem3d-src/docs/requirements.txt
-          mkdocs build --strict -f fem3d-src/mkdocs.yml --site-dir "$GITHUB_WORKSPACE/dist/fem3d"
-        env:
-          FEM3D_SITE_URL: https://christinotleonnel.github.io/Tsaraloha-Web/fem3d/
+      # Documentation du moteur Fem3D : publiée par son propre dépôt (TSA-3D-FEM-Engine,
+      # https://christinotleonnel.github.io/TSA-3D-FEM-Engine/). L'ancienne copie /fem3d/ (2026-10-19) est redirigée
+      # vers ce site par public/fem3d/index.html et public/404.html.
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

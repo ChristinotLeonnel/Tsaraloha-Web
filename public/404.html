@@ -10,13 +10,21 @@
       var pathSegmentsToKeep = 1;
 
       var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      var segments = l.pathname.split('/');
+
+      // Ancienne copie de la documentation Fem3D (/fem3d/…, 2026-10-19) : même page sur le site officiel.
+      if (segments[1 + pathSegmentsToKeep] === 'fem3d') {
+        l.replace('https://christinotleonnel.github.io/TSA-3D-FEM-Engine/' +
+          segments.slice(2 + pathSegmentsToKeep).join('/') + l.search + l.hash);
+      } else {
+        l.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+          l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash
+        );
+      }
     </script>
   </head>
   <body>

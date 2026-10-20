@@ -4,7 +4,7 @@ description: OpenSees pour la 3D, Custom2D pour les ossatures planes, Fem3D en d
 order: 4
 status: available
 version: 0.1.0
-updated: 2026-10-19
+updated: 2026-10-20
 keywords: [moteur, opensees, custom2d, fem3d, solveur, engine, solver]
 helpIds: [analysis.engines]
 ---
@@ -31,8 +31,8 @@ statique linéaire), validé contre des solutions analytiques et contre OpenSees
 **version de développement** de TSA comme moteur secondaire, et n'est encore dans aucune version publiée :
 OpenSees reste le moteur 3D par défaut tant que sa qualification n'est pas terminée.
 
-Documentation complète (livre technique, parcours d'apprentissage, validation) :
-[documentation Fem3D](https://christinotleonnel.github.io/Tsaraloha-Web/fem3d/).
+Documentation complète (livre technique, parcours d'apprentissage, validation), publiée par le dépôt du moteur :
+[site de la documentation Fem3D](https://christinotleonnel.github.io/TSA-3D-FEM-Engine/).
 
 ## Analyse dynamique
 

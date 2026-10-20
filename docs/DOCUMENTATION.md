@@ -111,6 +111,11 @@ Les captures et `report.json` sont écrits dans `audit-out/` (ignoré par Git).
 
 Une construction échoue si `check:docs` trouve une erreur : aucune page cassée n'est publiée.
 
+La documentation du moteur Fem3D n'est pas construite ici : elle est publiée par le dépôt `TSA-3D-FEM-Engine`
+(`https://christinotleonnel.github.io/TSA-3D-FEM-Engine/`, procédure dans son `docs/developer/DEVELOPER_GUIDE.md`
+§8) et la page `analysis/engines` y renvoie. L'ancienne copie `/fem3d/` (2026-10-19) redirige vers ce site, page
+par page (`public/fem3d/index.html`, `public/404.html`).
+
 ## 8. Ressources graphiques et captures du logiciel
 
 - **Logo et icônes** : copiés depuis le dépôt du logiciel (`../TSA/resources/icons`, ceux qu'utilise l'application)
